@@ -549,126 +549,117 @@
 
         /* --- MOBILE RESPONSIVENESS (Complete Overhaul) --- */
         @media (max-width: 900px) {
-            /* Reset body and remove JS scroll hack */
-            html { overflow-x: hidden !important; width: 100vw !important; }
-            body { 
-                overflow-x: hidden !important; 
-                width: 100vw !important; 
-                height: auto !important; 
-                min-height: 100vh !important; 
+            html, body {
+                overflow: hidden !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
-            /* Disable fixed UI layer & turn into normal scrolling flow */
-            #ui-layer { 
-                position: relative !important; 
-                width: 100vw !important; 
-                height: auto !important;
-                padding: 10px !important; 
-                display: block !important;
+            /* Fixed scrollable pane — sits on top of the 3D background */
+            #ui-layer {
+                position: fixed !important;
+                top: 0 !important; left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                overflow-y: auto !important;
                 overflow-x: hidden !important;
+                padding: 16px 12px 40px !important;
+                display: block !important;
+                z-index: 20 !important;
+                background: rgba(6, 2, 18, 0.92) !important;
+                -webkit-overflow-scrolling: touch !important;
             }
-            
-            .content-container { 
-                display: block !important; 
-                max-width: 100% !important; 
+
+            .content-container, .content-panel {
+                display: block !important;
+                width: 100% !important;
                 height: auto !important;
                 overflow: visible !important;
-                padding: 10px !important;
-            }
-            
-            /* Put EVERYTHING inside a single elegant box */
-            .content-panel { 
-                display: block !important;
-                height: auto !important;
-                width: 100% !important; 
-                overflow: visible !important; 
-                background: rgba(8, 4, 24, 0.95) !important; /* Solid dark background */
-                border: 1px solid rgba(168, 85, 247, 0.4) !important;
-                border-radius: 24px !important;
-                padding: 1rem 0.5rem !important;
-                box-shadow: 0 15px 50px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.15) inset !important;
-                backdrop-filter: blur(10px) !important;
-                -webkit-backdrop-filter: blur(10px) !important;
+                background: transparent !important;
+                border: none !important;
+                padding: 0 !important;
             }
 
-            /* Sections just become dividers inside the main box */
+            /* Each section = its own distinct glass card */
             .content-section {
                 position: relative !important;
                 opacity: 1 !important;
                 transform: none !important;
                 display: block !important;
                 height: auto !important;
-                margin-bottom: 0 !important;
-                padding: 2.5rem 1rem !important;
+                width: 100% !important;
+                margin-bottom: 16px !important;
+                padding: 1.8rem 1.2rem !important;
                 pointer-events: auto !important;
-                background: transparent !important;
-                border: none !important;
-                border-bottom: 1px dashed rgba(255,255,255,0.1) !important;
-                border-radius: 0 !important;
+                background: rgba(14, 6, 42, 0.88) !important;
+                border: 1px solid rgba(168, 85, 247, 0.3) !important;
+                border-radius: 20px !important;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 12px rgba(168,85,247,0.08) inset !important;
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
+                box-sizing: border-box !important;
             }
-            /* Remove border from last section */
-            .content-section:last-child {
-                border-bottom: none !important;
-            }
-            
-            /* Hide rocket cursor on mobile — not needed on touch screens */
+
+            /* Hide rocket cursor and HUD on mobile */
             .cursor-dot, .cursor-ring { display: none !important; }
             * { cursor: auto !important; }
+            .hud-overlay, .hud-nav, .scroll-prompt { display: none !important; }
 
-            /* Hide HUD elements to clean up small screens */
-            .hud-overlay, .hud-nav, .scroll-prompt { display: none !important; } 
-            
             /* Hero adjustments */
-            .hero-wrap { 
-                flex-direction: column !important; 
-                gap: 1.5rem !important; 
-                text-align: center !important; 
+            .hero-wrap {
+                flex-direction: column !important;
+                gap: 1.2rem !important;
+                text-align: center !important;
+                align-items: center !important;
             }
-            .profile-img { 
-                width: 160px !important; 
-                height: 160px !important; 
-                border-radius: 50% !important; 
+            .profile-img {
+                width: 150px !important;
+                height: 150px !important;
+                border-radius: 50% !important;
                 margin: 0 auto !important;
             }
             .hero-text { text-align: center !important; width: 100% !important; }
-            .hero-eyebrow { justify-content: center !important; }
-            .hero-name { font-size: 2.4rem !important; line-height: 1.1 !important; margin-bottom: 10px !important; }
-            .hero-role { font-size: 0.8rem !important; margin-bottom: 15px !important; }
-            .hero-tagline { font-size: 0.95rem !important; width: 100% !important; }
-            .hero-stats { justify-content: center !important; gap: 1rem !important; flex-wrap: wrap !important; }
-            
-            /* Global section adjustments */
-            .sec-title { font-size: 1.8rem !important; text-align: center !important; margin-bottom: 20px !important; }
-            .sec-label { text-align: center !important; }
-            .sec-desc { font-size: 0.9rem !important; text-align: center !important; margin: 0 auto 10px auto !important; }
-            
-            /* Grids to single column */
+            .hero-eyebrow { justify-content: center !important; font-size: 0.7rem !important; }
+            .hero-name { font-size: 2.2rem !important; line-height: 1.1 !important; margin-bottom: 8px !important; }
+            .hero-role { font-size: 0.72rem !important; margin-bottom: 12px !important; }
+            .hero-tagline { font-size: 0.88rem !important; width: 100% !important; margin-bottom: 1rem !important; }
+            .hero-stats { justify-content: center !important; gap: 1.5rem !important; flex-wrap: wrap !important; }
+            .hero-stat-val { font-size: 1.6rem !important; }
+            .hero-stat-label { font-size: 0.65rem !important; }
+
+            /* Section typography */
+            .sec-title { font-size: 1.6rem !important; text-align: center !important; margin-bottom: 16px !important; }
+            .sec-label { text-align: center !important; font-size: 0.65rem !important; }
+            .sec-desc { font-size: 0.88rem !important; text-align: left !important; max-width: 100% !important; margin: 0 0 10px 0 !important; }
+
+            /* All grids → single column */
             .skills-section-wrap,
             .achievements-grid,
             .projects-grid,
-            .certs-outer { 
-                grid-template-columns: 1fr !important; 
+            .certs-outer {
+                grid-template-columns: 1fr !important;
                 gap: 1rem !important;
                 width: 100% !important;
             }
-            
+
             /* Projects */
-            .project-item { flex-direction: column !important; text-align: center !important; padding: 1rem !important; }
-            .project-img-placeholder { width: 100% !important; height: 180px !important; margin-bottom: 1rem !important; }
-            
-            /* Contact section */
-            .contact-links { align-items: center !important; width: 100% !important; }
-            .contact-link { justify-content: center !important; width: 100% !important; }
-            
+            .project-item { flex-direction: column !important; padding: 0.8rem !important; }
+            .project-img-placeholder { width: 100% !important; height: 170px !important; margin-bottom: 0.8rem !important; }
+            .project-name { font-size: 0.9rem !important; }
+
+            /* Contact */
+            .contact-links { width: 100% !important; }
+            .contact-link { width: 100% !important; box-sizing: border-box !important; }
+
             /* Skills Map */
-            .skills-map-container { height: 350px !important; width: 100% !important; }
-            .s-node.main .s-label { font-size: 0.8rem !important; }
-            .s-node.sub .s-label { font-size: 0.65rem !important; }
-        }
-        @media (max-width: 480px) {
-            .hero-name { font-size: 2rem !important; }
-            .profile-img { width: 150px !important; height: 150px !important; margin-top: 5vh !important; }
-            .hero-stat-val { font-size: 1.3rem !important; }
+            .skills-map-container { height: 320px !important; width: 100% !important; }
+            .s-node.main .s-label { font-size: 0.78rem !important; }
+            .s-node.sub .s-label { font-size: 0.62rem !important; }
+
+            /* Certs */
+            .cert-title { font-size: 0.82rem !important; }
         }
     </style>
 
@@ -1504,6 +1495,11 @@
         let currentIdx = -1;
 
         function updateUI(idx) {
+            // On mobile: all sections visible, skip JS toggling
+            if (window.innerWidth <= 900) {
+                sections.forEach(el => el.classList.add('active'));
+                return;
+            }
             if(idx === currentIdx) return;
             currentIdx = idx;
             sections.forEach((el,i) => {
