@@ -547,41 +547,85 @@
         .skills-svg .l-cyan { stroke: rgba(34, 211, 238, 0.3); }
         .skills-svg .l-main { stroke: rgba(255,255,255,0.06); stroke-width: 1.5px; }
 
-        /* --- MOBILE RESPONSIVENESS --- */
+        /* --- MOBILE RESPONSIVENESS (Complete Overhaul) --- */
         @media (max-width: 900px) {
-            html, body { overflow-x: hidden !important; width: 100vw !important; }
-            #ui-layer { padding: 10px !important; width: 100vw !important; overflow-x: hidden !important; }
-            .content-container { max-width: 100% !important; padding: 0 !important; overflow-x: hidden !important; }
-            .content-panel { height: auto !important; min-height: 90vh !important; width: 100% !important; overflow-x: hidden !important; }
+            /* Reset body and remove JS scroll hack */
+            html { overflow-x: hidden !important; width: 100vw !important; }
+            body { 
+                overflow-x: hidden !important; 
+                width: 100vw !important; 
+                height: auto !important; 
+                min-height: 100vh !important; 
+            }
+
+            /* Disable fixed UI layer & turn into normal scrolling flow */
+            #ui-layer { 
+                position: relative !important; 
+                width: 100vw !important; 
+                height: auto !important;
+                padding: 10px !important; 
+                display: block !important;
+                overflow-x: hidden !important;
+            }
+            
+            .content-container { 
+                display: block !important; 
+                max-width: 100% !important; 
+                height: auto !important;
+                overflow: visible !important;
+                padding: 0 !important;
+            }
+            
+            .content-panel { 
+                display: block !important;
+                height: auto !important;
+                width: 100% !important; 
+                overflow: visible !important; 
+                background: transparent !important;
+                border: none !important;
+            }
+
+            /* Stack all sections vertically (ignoring JS opacity/transforms) */
+            .content-section {
+                position: relative !important;
+                opacity: 1 !important;
+                transform: none !important;
+                display: block !important;
+                height: auto !important;
+                margin-bottom: 2rem !important;
+                padding: 1.5rem 1rem !important;
+                pointer-events: auto !important;
+                background: rgba(12, 6, 36, 0.45) !important;
+                border-radius: 12px !important;
+                border: 1px solid rgba(120, 80, 240, 0.2) !important;
+            }
             
             /* Hide HUD elements to clean up small screens */
-            .hud-overlay { display: none !important; opacity: 0 !important; visibility: hidden !important; }
-            .hud-nav { display: none !important; } /* Hide sidebar completely on mobile */
+            .hud-overlay, .hud-nav, .scroll-prompt { display: none !important; } 
             
             /* Hero adjustments */
             .hero-wrap { 
                 flex-direction: column !important; 
                 gap: 1.5rem !important; 
                 text-align: center !important; 
-                justify-content: center !important; 
-                margin-top: 5vh !important;
             }
             .profile-img { 
-                width: 180px !important; 
-                height: 180px !important; 
+                width: 160px !important; 
+                height: 160px !important; 
                 border-radius: 50% !important; 
                 margin: 0 auto !important;
             }
             .hero-text { text-align: center !important; width: 100% !important; }
             .hero-eyebrow { justify-content: center !important; }
-            .hero-name { font-size: 2.2rem !important; line-height: 1.2 !important; word-wrap: break-word !important; }
-            .hero-role { font-size: 0.8rem !important; }
-            .hero-tagline { font-size: 0.95rem !important; width: 100% !important; padding: 0 10px !important; }
+            .hero-name { font-size: 2.4rem !important; line-height: 1.1 !important; margin-bottom: 10px !important; }
+            .hero-role { font-size: 0.8rem !important; margin-bottom: 15px !important; }
+            .hero-tagline { font-size: 0.95rem !important; width: 100% !important; }
             .hero-stats { justify-content: center !important; gap: 1rem !important; flex-wrap: wrap !important; }
             
             /* Global section adjustments */
-            .sec-title { font-size: 1.6rem !important; word-wrap: break-word !important; margin-top: 15px !important; }
-            .sec-desc { max-width: 100% !important; font-size: 0.9rem !important; padding: 0 5px !important; }
+            .sec-title { font-size: 1.8rem !important; text-align: center !important; margin-bottom: 20px !important; }
+            .sec-label { text-align: center !important; }
+            .sec-desc { font-size: 0.9rem !important; text-align: center !important; margin: 0 auto 10px auto !important; }
             
             /* Grids to single column */
             .skills-section-wrap,
@@ -595,16 +639,16 @@
             
             /* Projects */
             .project-item { flex-direction: column !important; text-align: center !important; padding: 1rem !important; }
-            .project-img-placeholder { width: 100% !important; height: 200px !important; margin-bottom: 0.8rem !important; }
+            .project-img-placeholder { width: 100% !important; height: 180px !important; margin-bottom: 1rem !important; }
             
             /* Contact section */
-            .contact-links { align-items: center !important; width: 100% !important; max-width: 100% !important; }
-            .contact-link { justify-content: center !important; width: 100% !important; padding: 1rem !important; box-sizing: border-box !important; }
+            .contact-links { align-items: center !important; width: 100% !important; }
+            .contact-link { justify-content: center !important; width: 100% !important; }
             
             /* Skills Map */
-            .skills-map-container { height: 60vh !important; min-height: 350px !important; width: 100% !important; }
-            .s-node.main .s-label { font-size: 0.85rem !important; }
-            .s-node.sub .s-label { font-size: 0.7rem !important; }
+            .skills-map-container { height: 350px !important; width: 100% !important; }
+            .s-node.main .s-label { font-size: 0.8rem !important; }
+            .s-node.sub .s-label { font-size: 0.65rem !important; }
         }
         @media (max-width: 480px) {
             .hero-name { font-size: 2rem !important; }
