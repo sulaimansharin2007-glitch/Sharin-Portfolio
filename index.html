@@ -611,6 +611,10 @@
                 border-bottom: none !important;
             }
             
+            /* Hide rocket cursor on mobile — not needed on touch screens */
+            .cursor-dot, .cursor-ring { display: none !important; }
+            * { cursor: auto !important; }
+
             /* Hide HUD elements to clean up small screens */
             .hud-overlay, .hud-nav, .scroll-prompt { display: none !important; } 
             
