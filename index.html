@@ -573,31 +573,42 @@
                 max-width: 100% !important; 
                 height: auto !important;
                 overflow: visible !important;
-                padding: 0 !important;
+                padding: 10px !important;
             }
             
+            /* Put EVERYTHING inside a single elegant box */
             .content-panel { 
                 display: block !important;
                 height: auto !important;
                 width: 100% !important; 
                 overflow: visible !important; 
-                background: transparent !important;
-                border: none !important;
+                background: rgba(8, 4, 24, 0.95) !important; /* Solid dark background */
+                border: 1px solid rgba(168, 85, 247, 0.4) !important;
+                border-radius: 24px !important;
+                padding: 1rem 0.5rem !important;
+                box-shadow: 0 15px 50px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.15) inset !important;
+                backdrop-filter: blur(10px) !important;
+                -webkit-backdrop-filter: blur(10px) !important;
             }
 
-            /* Stack all sections vertically (ignoring JS opacity/transforms) */
+            /* Sections just become dividers inside the main box */
             .content-section {
                 position: relative !important;
                 opacity: 1 !important;
                 transform: none !important;
                 display: block !important;
                 height: auto !important;
-                margin-bottom: 2rem !important;
-                padding: 1.5rem 1rem !important;
+                margin-bottom: 0 !important;
+                padding: 2.5rem 1rem !important;
                 pointer-events: auto !important;
-                background: rgba(12, 6, 36, 0.45) !important;
-                border-radius: 12px !important;
-                border: 1px solid rgba(120, 80, 240, 0.2) !important;
+                background: transparent !important;
+                border: none !important;
+                border-bottom: 1px dashed rgba(255,255,255,0.1) !important;
+                border-radius: 0 !important;
+            }
+            /* Remove border from last section */
+            .content-section:last-child {
+                border-bottom: none !important;
             }
             
             /* Hide HUD elements to clean up small screens */
