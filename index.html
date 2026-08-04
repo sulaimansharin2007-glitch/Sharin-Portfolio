@@ -1,13 +1,1523 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image" href="./src/assets/logoIcon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mohammed Suhail — Frontend Developer</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharin Banu S | AI & Data Science Portfolio</title>
+    <meta name="description" content="Portfolio of Sharin Banu S — AI & Data Science Engineer specializing in ML, Deep Learning, and Full-Stack Development.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Deep Space Theme — High Contrast (Lighter for readability) */
+            --bg:         #0a0624;
+            --bg-card:    rgba(12, 6, 36, 0.65);
+            --glass-bg:   rgba(16, 8, 48, 0.65);
+            --glass-border: rgba(120, 80, 240, 0.3);
+            --text-main:  #ffffff;
+            --text-dim:   #c4b8f5;
+            --gold:       #fbbf24;
+            --cyan:       #22d3ee;
+            --violet:     #b87fff;
+            --rose:       #e879f9;
+            --purple:     #d09eff;
+            --font-head:  'Outfit', sans-serif;
+            --font-body:  'Plus Jakarta Sans', sans-serif;
+            --font-mono:  'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            height: 1000vh;
+        }
+
+        #webgl-container {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh; z-index: -10;
+        }
+
+        /* Overlays */
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(88,28,135,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(49,10,100,0.15) 0%, transparent 55%),
+                radial-gradient(ellipse at center, transparent 30%, rgba(4,2,15,0.92) 100%);
+            z-index: -1;
+        }
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1; opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Content panels — transparent, no box */
+        .glass {
+            animation: floatPanel 8s ease-in-out infinite;
+        }
+        @keyframes floatPanel {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-6px); }
+        }
+        .glass-panel {
+            padding: 2rem 2.5rem;
+            pointer-events: auto;
+        }
+
+        /* Custom Cursor - Rocket */
+        .cursor-dot {
+            width: 24px; height: 24px;
+            position: fixed; pointer-events: none; z-index: 10000;
+            top: 0; left: 0; margin-left: -12px; margin-top: -12px;
+            font-size: 24px; line-height: 1;
+            filter: drop-shadow(0 0 8px rgba(34,211,238,0.8));
+        }
+        .cursor-dot::after {
+            content: '🚀';
+            position: absolute; top: 0; left: 0;
+            transform: rotate(-10deg);
+        }
+
+        /* Trailing Rocket Exhaust */
+        .cursor-ring {
+            width: 30px; height: 30px; border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 9999;
+            top: 0; left: 0; margin-left: -15px; margin-top: -15px;
+            background: radial-gradient(circle, rgba(251,191,36,0.6) 0%, rgba(239,68,68,0) 70%);
+            box-shadow: 0 0 15px rgba(251,191,36,0.4);
+            transition: width 0.2s, height 0.2s, margin-left 0.2s, margin-top 0.2s, background 0.3s;
+        }
+        body.hovered .cursor-ring {
+            width: 50px; height: 50px;
+            margin-left: -25px; margin-top: -25px;
+            background: radial-gradient(circle, rgba(34,211,238,0.6) 0%, rgba(34,211,238,0) 70%);
+            box-shadow: 0 0 25px rgba(34,211,238,0.6);
+        }
+
+        /* Scroll Indicator */
+        .scroll-prompt {
+            position: fixed; bottom: 35px; left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono); font-size: 0.65rem;
+            letter-spacing: 4px; color: var(--text-dim);
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            z-index: 50; opacity: 1; transition: opacity 0.5s;
+            text-transform: uppercase;
+        }
+        .scroll-line {
+            width: 1px; height: 40px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+
+        /* UI Layout — CENTERED */
+        #ui-layer {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: auto;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 3rem;
+            z-index: 10;
+        }
+        .interactive { pointer-events: auto; }
+
+        /* HUD Navigation */
+        .hud-nav {
+            grid-column: 1; grid-row: 1;
+            display: flex; flex-direction: column;
+            justify-content: flex-start; gap: 2.5rem;
+            padding-top: 3rem;
+            position: relative;
+        }
+        .hud-timeline {
+            position: absolute; left: 4px; top: 0; bottom: 0; width: 1px;
+            background: linear-gradient(to bottom,
+                rgba(168,85,247,0.0),
+                rgba(168,85,247,0.4) 15%,
+                rgba(168,85,247,0.4) 85%,
+                rgba(168,85,247,0.0));
+            z-index: 1;
+        }
+        .hud-item {
+            font-family: var(--font-mono); font-size: 0.75rem;
+            color: rgba(255,255,255,0.45); text-decoration: none;
+            text-transform: uppercase; letter-spacing: 4px;
+            padding-left: 28px; position: relative;
+            transition: all 0.4s;
+            display: flex; align-items: center;
+            font-weight: 500;
+        }
+        .hud-item::before {
+            content: ''; position: absolute; left: -1px;
+            width: 11px; height: 11px; border-radius: 50%;
+            background: #04020f;
+            border: 1px solid rgba(168,85,247,0.3);
+            transition: all 0.4s; z-index: 2;
+        }
+        .hud-item.active { 
+            color: #ffffff; 
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+            font-weight: 600;
+        }
+        .hud-item.active::before {
+            background: rgba(168,85,247,0.15);
+            border: 1.5px solid var(--violet);
+            box-shadow: 0 0 15px var(--violet), 0 0 15px var(--violet) inset;
+            transform: scale(1.4);
+        }
+        .hud-item:hover { color: #ffffff; }
+
+        /* Content Container — CENTERED */
+        .content-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            height: 100%; width: 100%; max-width: 1200px;
+            overflow: hidden;
+            pointer-events: auto; /* Allow clicks through to active section */
+        }
+
+        .content-panel {
+            width: 100%; max-width: 100%; position: relative;
+            height: calc(94vh);
+        }
+
+        .content-section {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; pointer-events: none;
+            transform: translateX(30px);
+            transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            justify-content: flex-start;
+        }
+        .content-section.active {
+            opacity: 1; pointer-events: auto; transform: translateX(0);
+        }
+        .content-section.active a,
+        .content-section.active button,
+        .content-section.active .interactive {
+            pointer-events: auto;
+        }
+        .content-section.prev { transform: translateX(-30px); }
+        .content-section.next { transform: translateX(30px); }
+
+        /* Section Typography */
+        .sec-label {
+            font-family: var(--font-mono); font-size: 0.78rem;
+            color: var(--cyan); letter-spacing: 5px; text-transform: uppercase;
+            margin-bottom: 0.5rem; display: block; opacity: 1;
+        }
+        .sec-title {
+            font-family: var(--font-head); font-size: 2.4rem; font-weight: 800;
+            letter-spacing: 4px; margin-bottom: 1.2rem; text-transform: uppercase;
+            line-height: 1.1; color: #ffffff;
+            text-shadow: 0 0 40px rgba(180,120,255,0.6), 0 2px 4px rgba(0,0,0,0.8);
+        }
+        .sec-desc {
+            font-family: var(--font-body);
+            font-weight: 400; line-height: 1.85; color: #e8e0ff;
+            font-size: 1.05rem; margin-bottom: 0.9rem; max-width: 88%;
+        }
+        .highlight { color: #ffffff; font-weight: 600; }
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+
+        /* Hero — horizontal layout */
+        .profile-img {
+            width: 280px; height: 380px; border-radius: 16px;
+            object-fit: cover; flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #020617;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+        .profile-img:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.8),
+                0 0 25px rgba(168, 85, 247, 0.2);
+        }
+        .hero-wrap {
+            display: flex;
+            align-items: center;
+            gap: 5rem;
+            text-align: left;
+            height: 100%;
+            padding: 0;
+        }
+        .hero-text { flex: 1; }
+        @keyframes floatHero {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .hero-eyebrow {
+            font-family: var(--font-mono); font-size: 0.85rem;
+            letter-spacing: 6px; color: var(--cyan); text-transform: uppercase;
+            margin-bottom: 0.9rem; opacity: 1;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .hero-eyebrow::before {
+            content: ''; width: 40px; height: 2px;
+            background: linear-gradient(to right, transparent, var(--cyan));
+        }
+        .hero-name {
+            font-family: var(--font-head); font-size: 5rem; font-weight: 900;
+            letter-spacing: 5px; line-height: 1.05; margin-bottom: 0.8rem;
+            color: #ffffff; /* Solid sharp white instead of blurry glowing gradient */
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+        .hero-role {
+            font-family: var(--font-mono); font-size: 1rem;
+            letter-spacing: 4px; color: #d4c8ff; margin-bottom: 1rem;
+            text-transform: uppercase; font-weight: 500;
+        }
+        .hero-tagline {
+            font-weight: 400; font-size: 1.15rem; line-height: 1.8;
+            color: #ffffff; margin-bottom: 2rem;
+            max-width: 650px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        /* Stats */
+        .hero-stats {
+            display: flex; justify-content: flex-start; gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        .hero-stat { text-align: left; }
+        .hero-stat-val {
+            font-family: var(--font-head); font-size: 2rem; font-weight: 800;
+            color: var(--gold); display: block; margin-bottom: 0.2rem;
+            text-shadow: 0 0 20px rgba(251,191,36,0.5);
+        }
+        .hero-stat-label {
+            font-family: var(--font-mono); font-size: 0.75rem;
+            letter-spacing: 3px; color: #c4b8f5; text-transform: uppercase; font-weight: 500;
+        }
+        /* CTA Buttons */
+        .hero-ctas {
+            display: flex; gap: 1.5rem; justify-content: flex-start; flex-wrap: wrap;
+            pointer-events: auto;
+        }
+        .cta-btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 1.1rem 2.5rem;
+            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(168,85,247,0.08));
+            border: 1px solid rgba(139,92,246,0.5);
+            color: var(--violet);
+            font-family: var(--font-mono); font-size: 0.9rem;
+            letter-spacing: 3px; text-transform: uppercase;
+            border-radius: 4px; transition: all 0.35s;
+            text-decoration: none;
+            pointer-events: auto; cursor: none;
+        }
+        .cta-btn-primary:hover {
+            background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(168,85,247,0.18));
+            box-shadow: 0 0 28px rgba(139,92,246,0.3);
+        }
+        .cta-btn-secondary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 1.1rem 2.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(232,228,255,0.15);
+            color: var(--text-dim);
+            font-family: var(--font-mono); font-size: 0.9rem;
+            letter-spacing: 3px; text-transform: uppercase;
+            border-radius: 4px; transition: all 0.35s;
+            text-decoration: none;
+            pointer-events: auto; cursor: none;
+        }
+        .cta-btn-secondary:hover {
+            border-color: rgba(232,228,255,0.3); color: var(--text-main);
+            background: rgba(255,255,255,0.06);
+        }
+        .cta-btn {
+            display: inline-block; padding: 1rem 2.5rem;
+            border: 0.5px solid rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.04);
+            color: var(--text-main);
+            font-family: var(--font-mono); font-size: 0.75rem;
+            letter-spacing: 4px; text-transform: uppercase;
+            border-radius: 40px; transition: all 0.35s;
+            backdrop-filter: blur(10px); text-decoration: none;
+        }
+        .cta-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 0 25px rgba(255,255,255,0.15);
+        }
+
+        /* Skills */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.3rem; }
+        .skill-tag {
+            padding: 4px 12px; border-radius: 20px; font-size: 0.72rem;
+            font-family: var(--font-mono); letter-spacing: 1.5px;
+            color: #c4b8f5; font-weight: 500;
+            border: 1px solid rgba(160,100,255,0.35);
+            background: rgba(120,60,220,0.1);
+            transition: all 0.3s;
+        }
+        .skill-tag:hover { color: #ffffff; border-color: var(--violet); background: rgba(168,85,247,0.2); text-shadow: 0 0 10px var(--violet); transform: scale(1.05); }
+        .skill-tag.core { color: var(--cyan); border-color: rgba(34,211,238,0.4); background: rgba(34,211,238,0.08); }
+        .skill-tag.gold { color: var(--gold); border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.08); }
+
+        /* Project cards */
+        .projects-grid {
+            display: flex; flex-direction: column; gap: 1.2rem;
+            flex: 1;
+        }
+        .project-item {
+            margin-bottom: 0; padding: 1.2rem;
+            border: 0.5px solid rgba(139,92,246,0.2);
+            border-radius: 8px;
+            background: rgba(139,92,246,0.04);
+            transition: border-color 0.3s;
+            display: flex; gap: 1.5rem; align-items: center;
+        }
+        .project-item:hover { border-color: rgba(168,85,247,0.5); }
+        .project-img-placeholder {
+            width: 150px; height: 100px; border-radius: 6px;
+            background: rgba(0,0,0,0.4); border: 1px dashed rgba(255,255,255,0.2);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim);
+            flex-shrink: 0; overflow: hidden; text-align: center; line-height: 1.4;
+        }
+        .project-img-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+        .project-content { flex: 1; }
+        .project-name { font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--text-main); letter-spacing: 0.5px; }
+        .project-tech { font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan); letter-spacing: 1px; margin-bottom: 0.6rem; }
+        .project-badge {
+            display: inline-block; padding: 1px 8px; border-radius: 20px; font-size: 0.58rem;
+            font-family: var(--font-mono); letter-spacing: 1px; border: 0.5px solid var(--gold);
+            color: var(--gold); margin-left: 6px; vertical-align: middle;
+        }
+
+        /* Timeline */
+        .achievements-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;
+        }
+        .timeline-item {
+            display: flex; gap: 0.8rem; align-items: flex-start;
+        }
+        .timeline-dot {
+            width: 7px; height: 7px; border-radius: 50%; margin-top: 5px;
+            flex-shrink: 0;
+        }
+        .timeline-dot.gold   { background: var(--gold);   box-shadow: 0 0 8px var(--gold); }
+        .timeline-dot.cyan   { background: var(--cyan);   box-shadow: 0 0 8px var(--cyan); }
+        .timeline-dot.purple { background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+        /* Cert items */
+        .certs-outer {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;
+        }
+        .cert-item {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.4rem 0;
+            border-bottom: 0.5px solid rgba(139,92,246,0.15);
+            transition: border-color 0.3s;
+        }
+        .cert-item:hover { border-color: rgba(168,85,247,0.5); }
+        .cert-badge {
+            width: 38px; height: 38px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .cert-badge.nptel { background: rgba(245,158,11,0.15); color: var(--gold); }
+        .cert-badge.ibm   { background: rgba(129,140,248,0.15); color: var(--cyan); }
+        .cert-info { flex: 1; }
+        .cert-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.1rem; color: #ffffff; }
+        .cert-sub { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 1px; }
+
+        /* Contact Links */
+        .contact-links { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.8rem; max-width: 460px; }
+        .contact-link {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.7rem 0.8rem;
+            border: 0.5px solid rgba(139,92,246,0.2);
+            border-radius: 8px;
+            text-decoration: none; color: #e0d8ff;
+            font-family: var(--font-body); font-size: 0.85rem;
+            transition: all 0.3s;
+            background: rgba(139,92,246,0.04);
+        }
+        .contact-link:hover { border-color: var(--violet); color: #ffffff; background: rgba(139,92,246,0.10); transform: translateX(4px); }
+        .contact-link span { font-size: 1.2rem; flex-shrink: 0; width: 24px; text-align: center; }
+        .contact-link-label { font-weight: 600; color: #ffffff; font-size: 0.9rem; margin-bottom: 2px; }
+        .contact-link-sub { font-size: 0.75rem; color: var(--text-dim); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+        /* Exploration HUD Overlay */
+        .hud-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 90;
+            padding: 1.5rem 2rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            font-family: var(--font-mono); font-size: 0.65rem; color: rgba(34, 211, 238, 0.45);
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .hud-corner {
+            display: flex; flex-direction: column; gap: 0.4rem;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+        .hud-corner.top-left, .hud-corner.bottom-left { align-items: flex-start; text-align: left; }
+        .hud-corner.top-right, .hud-corner.bottom-right { align-items: flex-end; text-align: right; }
+        .hud-glitch { font-weight: 700; color: rgba(255, 255, 255, 0.8); }
+        .hud-pulse {
+            position: relative; padding-left: 12px;
+        }
+        .hud-pulse::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+            animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+
+        /* Skills section compact */
+        .skills-section-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 2rem; }
+        .skill-group-label { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.4rem; }
+
+        /* Skills Map (Interactive Node Graph) */
+        .skills-map-container {
+            position: relative; width: 100%; height: 75vh; min-height: 500px;
+            margin-top: 1rem; border-radius: 12px;
+            background: linear-gradient(135deg, rgba(2, 6, 23, 0.6), rgba(15, 23, 42, 0.4));
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5) inset;
+        }
+        .skills-svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+        }
+        .skills-svg line { stroke: rgba(255,255,255,0.1); stroke-width: 1px; }
+
+        .s-node {
+            position: absolute; transform: translate(-50%, -50%);
+            z-index: 2; display: flex; flex-direction: column; align-items: center;
+            cursor: crosshair; transition: transform 0.3s cubic-bezier(0.2,0.8,0.2,1);
+        }
+        .s-node:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10; }
+
+        .s-dot {
+            border-radius: 50%; box-shadow: 0 0 12px currentColor;
+            background: currentColor; position: relative;
+        }
+        .s-node.main .s-dot { width: 14px; height: 14px; }
+        .s-node.main .s-dot::after {
+            content: ''; position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border: 1px solid currentColor; border-radius: 50%; opacity: 0.4;
+        }
+        .s-node.sub .s-dot { width: 6px; height: 6px; }
+
+        .s-label {
+            font-family: var(--font-body); color: #ffffff;
+            margin-top: 8px; white-space: nowrap; text-shadow: 0 2px 8px #000;
+        }
+        .s-node.main .s-label {
+            font-weight: 700; color: #ffffff; font-size: 1rem; letter-spacing: 1px;
+        }
+        .s-node.sub .s-label { font-size: 0.8rem; font-weight: 500; color: #e2d8ff; }
+
+        .s-green { color: #10b981; }
+        .s-purple { color: #c084fc; }
+        .s-gold { color: #fbbf24; }
+        .s-cyan { color: #22d3ee; }
+
+        .skills-svg .l-green { stroke: rgba(16, 185, 129, 0.3); }
+        .skills-svg .l-purple { stroke: rgba(192, 132, 252, 0.3); }
+        .skills-svg .l-gold { stroke: rgba(251, 191, 36, 0.3); }
+        .skills-svg .l-cyan { stroke: rgba(34, 211, 238, 0.3); }
+        .skills-svg .l-main { stroke: rgba(255,255,255,0.06); stroke-width: 1.5px; }
+
+        /* --- MOBILE RESPONSIVENESS (Complete Overhaul) --- */
+        @media (max-width: 900px) {
+            html, body {
+                overflow: hidden !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Fixed scrollable pane — sits on top of the 3D background */
+            #ui-layer {
+                position: fixed !important;
+                top: 0 !important; left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                padding: 16px 12px 40px !important;
+                display: block !important;
+                z-index: 20 !important;
+                background: rgba(6, 2, 18, 0.92) !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            .content-container, .content-panel {
+                display: block !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                background: transparent !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+
+            /* Each section = its own distinct glass card */
+            .content-section {
+                position: relative !important;
+                opacity: 1 !important;
+                transform: none !important;
+                display: block !important;
+                height: auto !important;
+                width: 100% !important;
+                margin-bottom: 16px !important;
+                padding: 1.8rem 1.2rem !important;
+                pointer-events: auto !important;
+                background: rgba(14, 6, 42, 0.88) !important;
+                border: 1px solid rgba(168, 85, 247, 0.3) !important;
+                border-radius: 20px !important;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 12px rgba(168,85,247,0.08) inset !important;
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Hide rocket cursor and HUD on mobile */
+            .cursor-dot, .cursor-ring { display: none !important; }
+            * { cursor: auto !important; }
+            .hud-overlay, .hud-nav, .scroll-prompt { display: none !important; }
+
+            /* Hero adjustments */
+            .hero-wrap {
+                flex-direction: column !important;
+                gap: 1.2rem !important;
+                text-align: center !important;
+                align-items: center !important;
+            }
+            .profile-img {
+                width: 150px !important;
+                height: 150px !important;
+                border-radius: 50% !important;
+                margin: 0 auto !important;
+            }
+            .hero-text { text-align: center !important; width: 100% !important; }
+            .hero-eyebrow { justify-content: center !important; font-size: 0.7rem !important; }
+            .hero-name { font-size: 2.2rem !important; line-height: 1.1 !important; margin-bottom: 8px !important; }
+            .hero-role { font-size: 0.72rem !important; margin-bottom: 12px !important; }
+            .hero-tagline { font-size: 0.88rem !important; width: 100% !important; margin-bottom: 1rem !important; }
+            .hero-stats { justify-content: center !important; gap: 1.5rem !important; flex-wrap: wrap !important; }
+            .hero-stat-val { font-size: 1.6rem !important; }
+            .hero-stat-label { font-size: 0.65rem !important; }
+
+            /* Section typography */
+            .sec-title { font-size: 1.6rem !important; text-align: center !important; margin-bottom: 16px !important; }
+            .sec-label { text-align: center !important; font-size: 0.65rem !important; }
+            .sec-desc { font-size: 0.88rem !important; text-align: left !important; max-width: 100% !important; margin: 0 0 10px 0 !important; }
+
+            /* All grids → single column */
+            .skills-section-wrap,
+            .achievements-grid,
+            .projects-grid,
+            .certs-outer {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+                width: 100% !important;
+            }
+
+            /* Projects */
+            .project-item { flex-direction: column !important; padding: 0.8rem !important; }
+            .project-img-placeholder { width: 100% !important; height: 170px !important; margin-bottom: 0.8rem !important; }
+            .project-name { font-size: 0.9rem !important; }
+
+            /* Contact */
+            .contact-links { width: 100% !important; }
+            .contact-link { width: 100% !important; box-sizing: border-box !important; }
+
+            /* Skills Map */
+            .skills-map-container { height: 320px !important; width: 100% !important; }
+            .s-node.main .s-label { font-size: 0.78rem !important; }
+            .s-node.sub .s-label { font-size: 0.62rem !important; }
+
+            /* Certs */
+            .cert-title { font-size: 0.82rem !important; }
+        }
+    </style>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+
+    <div id="webgl-container"></div>
+    <canvas id="sparkle-canvas"></canvas>
+    <div class="vignette"></div>
+
+    <script>
+    // ── Sparkle Canvas ──────────────────────────────────────────────
+    (function() {
+        const canvas = document.getElementById('sparkle-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, stars = [];
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+
+        function init() {
+            resize();
+            stars = [];
+            for (let i = 0; i < 80; i++) {
+                stars.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: Math.random() * 1.8 + 0.2,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.6 + 0.2,
+                    offset: Math.random() * Math.PI * 2,
+                    color: Math.random() > 0.85
+                        ? (Math.random() > 0.5 ? '#22d3ee' : '#fbbf24')
+                        : '#ffffff',
+                    cross: Math.random() > 0.78  // sparkle cross/star shape
+                });
+            }
+        }
+
+        function drawStar(x, y, r, alpha, color, cross) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = color;
+            if (cross && r > 0.8) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = r * 0.5;
+                ctx.shadowBlur = r * 8;
+                ctx.shadowColor = color;
+                ctx.beginPath();
+                ctx.moveTo(x - r * 2.5, y); ctx.lineTo(x + r * 2.5, y);
+                ctx.moveTo(x, y - r * 2.5); ctx.lineTo(x, y + r * 2.5);
+                ctx.stroke();
+            }
+            ctx.shadowBlur = r * 6;
+            ctx.shadowColor = color;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function animate(t) {
+            ctx.clearRect(0, 0, W, H);
+            const time = t * 0.001;
+            stars.forEach(s => {
+                const pulse = 0.4 + 0.6 * Math.abs(Math.sin(time * s.speed + s.offset));
+                const rPulse = s.r * (0.7 + 0.3 * Math.sin(time * s.speed * 1.3 + s.offset));
+                drawStar(s.x, s.y, rPulse, pulse, s.color, s.cross);
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        requestAnimationFrame(animate);
+    })();
+    </script>
+
+    <div class="grain"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+
+    <div class="scroll-prompt" id="scrollPrompt">
+        <span>Scroll to Navigate</span>
+        <div class="scroll-line"></div>
+    </div>
+
+    <div id="ui-layer">
+
+
+        <!-- Content Panel -->
+        <div class="content-container">
+            <div class="content-panel">
+
+                <!-- 0. HERO — Horizontal, static, fits viewport -->
+                <div class="content-section active" id="sec-0">
+                    <div class="hero-wrap">
+                        <img src="assets/profile.png" alt="Sharin Banu" class="profile-img">
+                        <div class="hero-text">
+                            <div class="hero-eyebrow">Hi, I'm</div>
+                            <div class="hero-name">Sharin<br>Banu S</div>
+                            <div class="hero-role">AI Engineer &nbsp;&middot;&nbsp; Full-Stack Developer &nbsp;&middot;&nbsp; Patent Holder</div>
+                            <p class="hero-tagline">
+                                Building intelligent solutions with AI, data, and modern technology.
+                            </p>
+                            <div class="hero-stats">
+                                <div class="hero-stat">
+                                    <span class="hero-stat-val">8.76</span>
+                                    <span class="hero-stat-label">CGPA</span>
+                                </div>
+                                <div class="hero-stat">
+                                    <span class="hero-stat-val">4+</span>
+                                    <span class="hero-stat-label">Projects</span>
+                                </div>
+                                <div class="hero-stat">
+                                    <span class="hero-stat-val">11+</span>
+                                    <span class="hero-stat-label">Certs</span>
+                                </div>
+                                <div class="hero-stat">
+                                    <span class="hero-stat-val">1</span>
+                                    <span class="hero-stat-label">Patent</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. ABOUT -->
+                <div class="content-section glass glass-panel" id="sec-1">
+                    <span class="sec-label">Blue Nebula — Sector 01</span>
+                    <h2 class="sec-title">About Me</h2>
+                    <p class="sec-desc">
+                        I'm an AI &amp; Data Science undergraduate passionate about creating intelligent digital products through <span class="highlight">Artificial Intelligence, Machine Learning, Data Analytics, Full-Stack Development,</span> and <span class="highlight">Generative AI</span>.
+                    </p>
+                    <p class="sec-desc">
+                        I enjoy turning complex ideas into scalable applications that deliver real-world impact. Whether it's training machine learning models, developing modern web applications, or exploring emerging AI technologies, I believe in building solutions that are innovative, efficient, and user-focused.
+                    </p>
+                    <p class="sec-desc">
+                        I'm constantly learning, experimenting, and embracing new technologies to prepare for the next generation of AI-driven innovation.
+                    </p>
+                    <p class="sec-desc" style="margin-top:1rem;">
+                        <span class="cyan-text">📧</span> sulaimansharin2007@gmail.com
+                    </p>
+                </div>
+
+                <!-- 2. EDUCATION -->
+                <div class="content-section glass glass-panel" id="sec-2">
+                    <span class="sec-label">Solar System — Sector 02</span>
+                    <h2 class="sec-title">Education</h2>
+
+                    <div style="display:flex; flex-direction:column; gap:1rem;">
+                        <div class="project-item">
+                            <div class="project-content">
+                                <div class="project-name">B.Tech — Artificial Intelligence &amp; Data Science</div>
+                                <div class="project-tech">Sona College of Technology, Salem, India &nbsp;·&nbsp; 2024 – 2028</div>
+                                <p class="sec-desc" style="margin-bottom:0;">CGPA: <span class="gold-text" style="font-size:1.4rem; font-weight:700;">8.76</span> <span style="color:var(--text-dim); font-size:0.8rem;">/ 10</span></p>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-content">
+                                <div class="project-name">Higher Secondary Education — Tamil Nadu State Board</div>
+                                <div class="project-tech">Percentage: <span class="cyan-text" style="font-size:1.2rem; font-weight:700;">86.17%</span> &nbsp;·&nbsp; Completed: 2024</div>
+                            </div>
+                        </div>
+
+                        <div class="project-item" style="margin-bottom:0;">
+                            <div class="project-content">
+                                <div class="project-name">Secondary School Education — Tamil Nadu State Board</div>
+                                <div class="project-tech">Percentage: <span class="cyan-text" style="font-size:1.2rem; font-weight:700;">83.8%</span> &nbsp;·&nbsp; Completed: 2022</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. SKILLS -->
+                <div class="content-section glass glass-panel" id="sec-3">
+                    <span class="sec-label">Constellation — Sector 03</span>
+                    <h2 class="sec-title">Skills Map</h2>
+                    <p class="sec-desc">An interconnected visualization of my technical expertise, bridging Languages, AI & Data Science, Web Development, and Core Computer Science.</p>
+
+                    <div class="skills-map-container interactive">
+                        <svg class="skills-svg">
+                            <!-- Main interconnections -->
+                            <line x1="20%" y1="30%" x2="45%" y2="20%" class="l-main" />
+                            <line x1="45%" y1="20%" x2="75%" y2="35%" class="l-main" />
+                            <line x1="20%" y1="30%" x2="35%" y2="70%" class="l-main" />
+                            <line x1="45%" y1="20%" x2="35%" y2="70%" class="l-main" />
+                            <line x1="75%" y1="35%" x2="35%" y2="70%" class="l-main" />
+
+                            <!-- Green: Languages -->
+                            <line x1="20%" y1="30%" x2="20%" y2="10%" class="l-green"/>
+                            <line x1="20%" y1="30%" x2="5%" y2="30%" class="l-green"/>
+                            <line x1="20%" y1="30%" x2="33%" y2="30%" class="l-green"/>
+                            <line x1="20%" y1="30%" x2="20%" y2="50%" class="l-green"/>
+
+                            <!-- Purple: AI & Data -->
+                            <line x1="45%" y1="20%" x2="45%" y2="5%" class="l-purple"/>
+                            <line x1="45%" y1="20%" x2="60%" y2="15%" class="l-purple"/>
+                            <line x1="45%" y1="20%" x2="55%" y2="35%" class="l-purple"/>
+                            <line x1="45%" y1="20%" x2="32%" y2="35%" class="l-purple"/>
+                            <line x1="45%" y1="20%" x2="30%" y2="15%" class="l-purple"/>
+
+                            <!-- Gold: Web & Tools -->
+                            <line x1="75%" y1="35%" x2="75%" y2="15%" class="l-gold"/>
+                            <line x1="75%" y1="35%" x2="60%" y2="45%" class="l-gold"/>
+                            <line x1="75%" y1="35%" x2="90%" y2="45%" class="l-gold"/>
+
+                            <!-- Cyan: Core CS -->
+                            <line x1="35%" y1="70%" x2="35%" y2="52%" class="l-cyan"/>
+                            <line x1="35%" y1="70%" x2="20%" y2="65%" class="l-cyan"/>
+                            <line x1="35%" y1="70%" x2="25%" y2="85%" class="l-cyan"/>
+                            <line x1="35%" y1="70%" x2="45%" y2="85%" class="l-cyan"/>
+                            <line x1="35%" y1="70%" x2="50%" y2="65%" class="l-cyan"/>
+                        </svg>
+
+                        <!-- Nodes - Languages -->
+                        <div class="s-node main s-green" style="left:20%; top:30%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-28px;">Languages</div></div>
+                        <div class="s-node sub s-green" style="left:20%; top:10%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-18px;">Python</div></div>
+                        <div class="s-node sub s-green" style="left:5%; top:30%; flex-direction:row;"><div class="s-label" style="margin-top:0; margin-right:6px;">SQL</div><div class="s-dot"></div></div>
+                        <div class="s-node sub s-green" style="left:33%; top:30%; flex-direction:row;"><div class="s-dot"></div><div class="s-label" style="margin-top:0; margin-left:6px;">Java</div></div>
+                        <div class="s-node sub s-green" style="left:20%; top:50%;"><div class="s-dot"></div><div class="s-label">C / C++</div></div>
+
+                        <!-- Nodes - AI & Data -->
+                        <div class="s-node main s-purple" style="left:45%; top:20%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-28px;">AI & Data</div></div>
+                        <div class="s-node sub s-purple" style="left:45%; top:5%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-18px;">Machine Learning</div></div>
+                        <div class="s-node sub s-purple" style="left:60%; top:15%; flex-direction:row;"><div class="s-dot"></div><div class="s-label" style="margin-top:0; margin-left:6px;">Generative AI</div></div>
+                        <div class="s-node sub s-purple" style="left:55%; top:35%; flex-direction:row;"><div class="s-dot"></div><div class="s-label" style="margin-top:0; margin-left:6px;">Prompt Engineering</div></div>
+                        <div class="s-node sub s-purple" style="left:32%; top:35%; flex-direction:row;"><div class="s-label" style="margin-top:0; margin-right:6px;">Data Visualization</div><div class="s-dot"></div></div>
+                        <div class="s-node sub s-purple" style="left:30%; top:15%; flex-direction:row;"><div class="s-label" style="margin-top:0; margin-right:6px;">Model Evaluation</div><div class="s-dot"></div></div>
+
+                        <!-- Nodes - Web & Tools -->
+                        <div class="s-node main s-gold" style="left:75%; top:35%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-28px;">Web & Tools</div></div>
+                        <div class="s-node sub s-gold" style="left:75%; top:15%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-18px;">HTML/CSS/JS</div></div>
+                        <div class="s-node sub s-gold" style="left:60%; top:45%; flex-direction:row;"><div class="s-label" style="margin-top:0; margin-right:6px;">VS Code</div><div class="s-dot"></div></div>
+                        <div class="s-node sub s-gold" style="left:90%; top:45%; flex-direction:row;"><div class="s-dot"></div><div class="s-label" style="margin-top:0; margin-left:6px;">Git & GitHub</div></div>
+
+                        <!-- Nodes - Core CS & Practice -->
+                        <div class="s-node main s-cyan" style="left:35%; top:70%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-28px;">Core CS & Practice</div></div>
+                        <div class="s-node sub s-cyan" style="left:35%; top:52%;"><div class="s-dot"></div><div class="s-label" style="margin-top:-18px;">Data Structures & Algorithms</div></div>
+                        <div class="s-node sub s-cyan" style="left:20%; top:65%; flex-direction:row;"><div class="s-label" style="margin-top:0; margin-right:6px;">Agile & Scrum</div><div class="s-dot"></div></div>
+                        <div class="s-node sub s-cyan" style="left:25%; top:85%;"><div class="s-dot"></div><div class="s-label">Computer Networks</div></div>
+                        <div class="s-node sub s-cyan" style="left:45%; top:85%;"><div class="s-dot"></div><div class="s-label">DBMS</div></div>
+                        <div class="s-node sub s-cyan" style="left:50%; top:65%; flex-direction:row;"><div class="s-dot"></div><div class="s-label" style="margin-top:0; margin-left:6px;">OOP</div></div>
+                    </div>
+                </div>
+
+                <!-- 4. PROJECTS (Part 1) -->
+                <div class="content-section glass glass-panel" id="sec-4">
+                    <span class="sec-label">Planetary System — Sector 04</span>
+                    <h2 class="sec-title">Projects</h2>
+                    <div class="projects-grid">
+                        <!-- 1. Dog Repellent -->
+                        <div class="project-item">
+                            <div class="project-img-placeholder" style="background:transparent; border:1px solid rgba(255,255,255,0.1);">
+                                <img src="assets/dog-repellent.jpg" alt="Ultrasonic Dog Repellent">
+                            </div>
+                            <div class="project-content">
+                                <div class="project-name">Ultrasonic Dog Repellent Device <span class="project-badge">Patent ✓</span></div>
+                                <div class="project-tech">Embedded Systems · C · Circuit Design</div>
+                                <p class="sec-desc" style="margin-bottom:0.3rem;">Designed a standalone ultrasonic device to safely deter stray dogs using high-frequency sound.</p>
+                                <p class="sec-desc" style="margin-bottom:0;">Integrated sensor hardware with embedded control circuitry and optimized signal reliability through testing.</p>
+                            </div>
+                        </div>
+
+                        <!-- 2. SonaConnect -->
+                        <div class="project-item">
+                            <div class="project-img-placeholder" style="background:transparent; border:1px solid rgba(255,255,255,0.1);">
+                                <img src="assets/sonaconnect.png" alt="SonaConnect Dashboard">
+                            </div>
+                            <div class="project-content">
+                                <div class="project-name">SonaConnect — College Event Management Platform
+                                    <a href="https://sona-connect.vercel.app/" target="_blank" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cyan);margin-left:8px;text-decoration:none;border:0.5px solid var(--cyan);padding:2px 8px;border-radius:10px;">Live ↗</a>
+                                    <a href="https://github.com/sulaimansharin2007-glitch/SonaConnect" target="_blank" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-left:6px;text-decoration:none;border:0.5px solid rgba(255,255,255,0.15);padding:2px 8px;border-radius:10px;">GitHub ↗</a>
+                                </div>
+                                <div class="project-tech">React.js · Node.js · Express.js · MongoDB · JWT · REST APIs</div>
+                                <p class="sec-desc" style="margin-bottom:0.3rem;">Developed a MERN-based platform for managing college events with secure role-based access control.</p>
+                                <p class="sec-desc" style="margin-bottom:0;">Implemented event registration, notifications, and an analytics dashboard for students and administrators.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. PROJECTS (Part 2) -->
+                <div class="content-section glass glass-panel" id="sec-5">
+                    <span class="sec-label">Planetary System — Sector 04 (Continued)</span>
+                    <h2 class="sec-title">More Projects</h2>
+                    <div class="projects-grid">
+                        <!-- 3. Placence -->
+                        <div class="project-item">
+                            <div class="project-img-placeholder" style="background:transparent; border:1px solid rgba(255,255,255,0.1);">
+                                <img src="assets/placence.png" alt="Placence Dashboard">
+                            </div>
+                            <div class="project-content">
+                                <div class="project-name">Placence — Job Prediction &amp; Skill Recommendation</div>
+                                <div class="project-tech">React.js · Node.js · Express.js · MongoDB · JWT</div>
+                                <p class="sec-desc" style="margin-bottom:0.3rem;">Built a MERN application that predicts suitable job roles based on students' academic performance.</p>
+                                <p class="sec-desc" style="margin-bottom:0;">Developed personalized skill recommendations and an interactive analytics dashboard.</p>
+                            </div>
+                        </div>
+
+                        <!-- 4. Smart Jewelry (TechSHEvate) -->
+                        <div class="project-item" style="margin-bottom:0;">
+                            <div class="project-img-placeholder" style="background:transparent; border:1px solid rgba(255,255,255,0.1);">
+                                <img src="assets/techshevate-cert.jpg" alt="TechSHEvate 2025 Certificate" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+                            </div>
+                            <div class="project-content">
+                                <div class="project-name">Smart Jewelry Safety Device</div>
+                                <div class="project-tech">TechSHEvate 2025 · GPS · GSM · Concept Design</div>
+                                <p class="sec-desc" style="margin-bottom:0.3rem;">Designed a wearable emergency safety system with GPS tracking and GSM-based SOS alerts.</p>
+                                <p class="sec-desc" style="margin-bottom:0;">Proposed panic-triggered location sharing for enhanced women's safety.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. CERTIFICATIONS — 3-col compact grid -->
+                <div class="content-section glass glass-panel" id="sec-6">
+                    <span class="sec-label">Cosmic Archive — Sector 05</span>
+                    <h2 class="sec-title">Certifications</h2>
+                    <div class="certs-outer" style="grid-template-columns: 1fr 1fr 1fr 1fr; gap:0.8rem;">
+                        <div>
+                            <p class="sec-desc" style="font-size:0.72rem;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:0.6rem;font-weight:700;">IBM SkillsBuild</p>
+                            <div class="cert-item">
+                                <div class="cert-badge ibm">IBM</div>
+                                <div class="cert-info"><div class="cert-title">Intro to Cloud Computing</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge ibm">IBM</div>
+                                <div class="cert-info"><div class="cert-title">Cybersecurity Fundamentals</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge ibm">IBM</div>
+                                <div class="cert-info"><div class="cert-title">Build your First ChatBot</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge ibm">IBM</div>
+                                <div class="cert-info"><div class="cert-title">Deploying Software in Cloud</div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="sec-desc" style="font-size:0.72rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem;font-weight:700;">NPTEL</p>
+                            <div class="cert-item">
+                                <div class="cert-badge nptel">NPT</div>
+                                <div class="cert-info"><div class="cert-title">Design Thinking <span style="color:var(--gold);">(Top 5%)</span></div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge nptel">NPT</div>
+                                <div class="cert-info"><div class="cert-title">Programming in Java</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge nptel">NPT</div>
+                                <div class="cert-info"><div class="cert-title">Fundamental Algorithms</div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="sec-desc" style="font-size:0.72rem;letter-spacing:3px;color:var(--rose);text-transform:uppercase;margin-bottom:0.6rem;font-weight:700;">Infosys Springboard</p>
+                            <div class="cert-item">
+                                <div class="cert-badge" style="background:rgba(232,121,249,0.15);color:var(--rose);">INF</div>
+                                <div class="cert-info"><div class="cert-title">Prompt Engineering</div></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="sec-desc" style="font-size:0.72rem;letter-spacing:3px;color:var(--purple);text-transform:uppercase;margin-bottom:0.6rem;font-weight:700;">NASSCOM &amp; Others</p>
+                            <div class="cert-item">
+                                <div class="cert-badge" style="background:rgba(192,132,252,0.15);color:var(--purple);">NAS</div>
+                                <div class="cert-info"><div class="cert-title">Digital 101</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge" style="background:rgba(192,132,252,0.15);color:var(--purple);">NAS</div>
+                                <div class="cert-info"><div class="cert-title">Data Acquisition &amp; Visualization</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge" style="background:rgba(192,132,252,0.15);color:var(--purple);">NAS</div>
+                                <div class="cert-info"><div class="cert-title">Generative AI for Beginners</div></div>
+                            </div>
+                            <div class="cert-item">
+                                <div class="cert-badge" style="background:rgba(34,211,238,0.12);color:var(--cyan);">AI</div>
+                                <div class="cert-info"><div class="cert-title">AI for Starters</div><div class="cert-sub">Karpagam College · 2025</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. ACHIEVEMENTS — 2-col compact grid -->
+                <div class="content-section glass glass-panel" id="sec-6">
+                    <span class="sec-label">Golden Nebula Core — Sector 06</span>
+                    <h2 class="sec-title">Achievements</h2>
+                    <div class="achievements-grid">
+                        <div class="timeline-item">
+                            <div class="timeline-dot gold"></div>
+                            <div>
+                                <div class="project-name" style="font-size:0.82rem;">Academic Excellence Award</div>
+                                <div class="project-tech">Sona College of Technology &nbsp;·&nbsp; 2024–2025 &amp; 2025–2026</div>
+                                <p class="sec-desc" style="margin-bottom:0;">Recognized for sustained top-tier academic performance across consecutive semesters.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot purple"></div>
+                            <div>
+                                <div class="project-name" style="font-size:0.82rem;">Patent Approved</div>
+                                <div class="project-tech">Ultrasonic Dog Repellent Device</div>
+                                <p class="sec-desc" style="margin-bottom:0;">Official patent approval for the innovative embedded hardware system design and implementation.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot gold"></div>
+                            <div>
+                                <div class="project-name" style="font-size:0.82rem;">NPTEL — Design Thinking Top 5%</div>
+                                <div class="project-tech">Design Thinking – A Primer · NPTEL</div>
+                                <p class="sec-desc" style="margin-bottom:0;">Achieved Top 5% performer recognition out of all national participants.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot cyan"></div>
+                            <div>
+                                <div class="project-name" style="font-size:0.82rem;">ISTE Ramanujan Math Competition</div>
+                                <div class="project-tech">National Level · Qualified Levels 1 &amp; 2 · 2024 &amp; 2025</div>
+                                <p class="sec-desc" style="margin-bottom:0;">Qualified both Level 1 and Level 2 in the prestigious ISTE National-Level Mathematics Competition.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot purple"></div>
+                            <div>
+                                <div class="project-name" style="font-size:0.82rem;">Hackathons &amp; Competitive Events</div>
+                                <div class="project-tech">TechSHEvate 2025 &amp; Various</div>
+                                <p class="sec-desc" style="margin-bottom:0;">Contributed to ideation, problem-solving, and technical presentations in hackathons including TechSHEvate 2025.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. CONTACT -->
+                <div class="content-section glass glass-panel" id="sec-8">
+                    <span class="sec-label">Edge of the Universe — Sector 07</span>
+                    <h2 class="sec-title">Comm Link</h2>
+                    <p class="sec-desc">All transmission channels actively monitored. Initiate contact for collaborations, internship opportunities, or to connect across the cosmos.</p>
+                    <p class="sec-desc" style="font-weight: 600; color: #ffffff; margin-top: 1rem; margin-bottom: 1.5rem;">
+                        Ready to turn ideas into intelligent solutions? Let's build the future together.
+                    </p>
+
+                    <div class="contact-links interactive">
+                        <!-- Email -->
+                        <a href="mailto:sulaimansharin2007@gmail.com" class="contact-link interactive">
+                            <span>✉</span>
+                            <div>
+                                <div class="contact-link-label">Email</div>
+                                <div class="contact-link-sub">sulaimansharin2007@gmail.com</div>
+                            </div>
+                        </a>
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/sharin-banu-s-b31252358" target="_blank" class="contact-link interactive">
+                            <span>◈</span>
+                            <div>
+                                <div class="contact-link-label">LinkedIn</div>
+                                <div class="contact-link-sub">linkedin.com/in/sharin-banu-s-b31252358</div>
+                            </div>
+                        </a>
+                        <!-- GitHub -->
+                        <a href="https://github.com/sulaimansharin2007-glitch" target="_blank" class="contact-link interactive">
+                            <span>⌥</span>
+                            <div>
+                                <div class="contact-link-label">GitHub</div>
+                                <div class="contact-link-sub">sulaimansharin2007-glitch</div>
+                            </div>
+                        </a>
+                        <!-- Live -->
+                        <a href="https://sona-connect.vercel.app/" target="_blank" class="contact-link interactive">
+                            <span>◉</span>
+                            <div>
+                                <div class="contact-link-label">SonaConnect — Live App</div>
+                                <div class="contact-link-sub">sona-connect.vercel.app</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        // ── Cursor (Disabled on mobile) ───────────────────────────────────
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
+        let mx = window.innerWidth/2, my = window.innerHeight/2;
+        let rx = mx, ry = my;
+        const isMobile = window.innerWidth <= 900;
+
+        window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        document.querySelectorAll('.interactive, a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+        });
+
+        function updateCursor() {
+            rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+            if(dot) dot.style.transform = `translate(${mx}px, ${my}px)`;
+            if(ring) ring.style.transform = `translate(${rx}px, ${ry}px)`;
+            requestAnimationFrame(updateCursor);
+        }
+        if(!isMobile) updateCursor();
+
+        // ── Three.js Scene: VIBE A (Interstellar Cinematic) ───────────────
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020617, 0.00015); // Deeper, darker fog
+
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.5, 30000);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.6; // Brighter highlights for cinematic feel
+        document.getElementById('webgl-container').appendChild(renderer.domElement);
+
+        // ── Flight Path (CatmullRomCurve3) ──────────────────────────────
+        const curvePoints = [
+            new THREE.Vector3(0, 0, 800),         // Start (Hero Earth)
+            new THREE.Vector3(1200, 400, -3000),  // Galaxies
+            new THREE.Vector3(-1500, 800, -8000), // Asteroids
+            new THREE.Vector3(1800, -600, -13000),// Constellations
+            new THREE.Vector3(-1000, -200, -18000),// Comets
+            new THREE.Vector3(2000, 900, -23000), // Saturn
+            new THREE.Vector3(0, 0, -28000),      // Black Hole approach
+            new THREE.Vector3(0, 0, -29500)       // Black Hole close
+        ];
+        const flightPath = new THREE.CatmullRomCurve3(curvePoints);
+
+        // ── Lights ──────────────────────────────────────────────────
+        scene.add(new THREE.AmbientLight(0x0a0c1a, 2.5));
+        const sunLight = new THREE.PointLight(0xfff0dd, 15, 12000);
+        sunLight.position.set(2000, 1000, -5000);
+        scene.add(sunLight);
+        const rimLight = new THREE.DirectionalLight(0x22d3ee, 1.2);
+        rimLight.position.set(-1, 0.5, 1);
+        scene.add(rimLight);
+
+        // ── Texture Generators ──────────────────────────────────────
+        function makeRadialCanvas(coreColor, edgeColor, stops) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128; canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+            stops.forEach(s => grad.addColorStop(s.pos, s.col));
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.arc(64, 64, 64, 0, Math.PI*2); ctx.fill();
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const starTex = makeRadialCanvas('#fff', 'rgba(255,255,255,0)', [
+            {pos: 0, col: '#fff'}, {pos: 0.1, col: 'rgba(255,255,255,0.8)'}, {pos: 0.4, col: 'rgba(255,255,255,0.1)'}, {pos: 1, col: 'rgba(255,255,255,0)'}
+        ]);
+
+        const nebTex = makeRadialCanvas('#fff', 'rgba(255,255,255,0)', [
+            {pos: 0, col: 'rgba(255,255,255,1)'}, {pos: 0.3, col: 'rgba(255,255,255,0.4)'}, {pos: 1, col: 'rgba(255,255,255,0)'}
+        ]);
+
+        // ── Volumetric Nebulas ──────────────────────────────────────
+        const nebulaG = new THREE.Group();
+        scene.add(nebulaG);
+        const nebColors = [0x4c1d95, 0x1e3a8a, 0x064e3b, 0x831843];
+        for(let i=0; i<300; i++) {
+            const c = new THREE.Color(nebColors[Math.floor(Math.random()*nebColors.length)]);
+            const mat = new THREE.SpriteMaterial({ map: nebTex, color: c, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending });
+            const sprite = new THREE.Sprite(mat);
+            const scale = 3000 + Math.random()*5000;
+            sprite.scale.set(scale, scale, 1);
+            
+            // Scatter around the flight path
+            const t = Math.random();
+            const pt = flightPath.getPointAt(t);
+            sprite.position.set(
+                pt.x + (Math.random()-0.5)*8000,
+                pt.y + (Math.random()-0.5)*8000,
+                pt.z + (Math.random()-0.5)*8000
+            );
+            nebulaG.add(sprite);
+        }
+
+        // ── Background Stars (Parallax Layers) ──────────────────────
+        function makeStarField(count, size, opacity) {
+            const geo = new THREE.BufferGeometry();
+            const pos = [], col = [];
+            const c1 = new THREE.Color(0xffffff), c2 = new THREE.Color(0x22d3ee), c3 = new THREE.Color(0xfbbf24);
+            for(let i=0;i<count;i++) {
+                // Scatter everywhere around the massive path
+                pos.push((Math.random()-0.5)*30000, (Math.random()-0.5)*30000, 2000 - Math.random()*35000);
+                const r = Math.random();
+                const c = r > 0.8 ? c2 : (r > 0.6 ? c3 : c1);
+                col.push(c.r, c.g, c.b);
+            }
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+            geo.setAttribute('color', new THREE.Float32BufferAttribute(col,3));
+            return new THREE.Points(geo, new THREE.PointsMaterial({ size, map:starTex, alphaTest:0.01, vertexColors:true, transparent:true, opacity, sizeAttenuation:true }));
+        }
+        const starsFar = makeStarField(15000, 30, 0.6);
+        const starsNear = makeStarField(8000, 60, 1.0);
+        scene.add(starsFar); scene.add(starsNear);
+
+        // ── 0. HERO (Cinematic Earth) ───────────────────────────────
+        const earthG = new THREE.Group();
+        earthG.position.copy(curvePoints[0]).add(new THREE.Vector3(-200, -80, -900));
+        scene.add(earthG);
+        
+        // Ocean & Land
+        earthG.add(new THREE.Mesh(
+            new THREE.SphereGeometry(150, 64, 64),
+            new THREE.MeshStandardMaterial({ color: 0x072a5e, roughness: 0.3, metalness: 0.1 })
+        ));
+        earthG.add(new THREE.Mesh(
+            new THREE.SphereGeometry(151, 64, 64),
+            new THREE.MeshStandardMaterial({ color: 0x164a38, roughness: 0.9, transparent: true, opacity: 0.8 })
+        ));
+        // Volumetric Clouds
+        const earthClouds = new THREE.Mesh(
+            new THREE.SphereGeometry(153, 64, 64),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.4, roughness: 1.0 })
+        );
+        earthG.add(earthClouds);
+        // Fresnel Atmosphere Glow
+        const atmosMat = new THREE.ShaderMaterial({
+            uniforms: {
+                color1: { value: new THREE.Color(0x3b82f6) }
+            },
+            vertexShader: `varying vec3 vNormal; void main() { vNormal = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+            fragmentShader: `uniform vec3 color1; varying vec3 vNormal; void main() { float intensity = pow(0.6 - dot(vNormal, vec3(0, 0, 1.0)), 4.0); gl_FragColor = vec4(color1, 1.0) * intensity; }`,
+            transparent: true, blending: THREE.AdditiveBlending, side: THREE.BackSide
+        });
+        earthG.add(new THREE.Mesh(new THREE.SphereGeometry(175, 64, 64), atmosMat));
+        earthG.add(new THREE.PointLight(0x4488ff, 8, 1000));
+
+        // ── 1. ABOUT (Galaxies) ─────────────────────────────────────
+        function makeSpiralGalaxy(pos, rotX, rotY, cInner, cOuter) {
+            const geo = new THREE.BufferGeometry();
+            const p = [], col = [];
+            for(let i=0;i<8000;i++) {
+                const r = Math.pow(Math.random(), 0.5) * 800;
+                const armAngle = (i%3) * (Math.PI*2/3);
+                const theta = armAngle + r * 0.012 + (Math.random()-0.5)*0.8;
+                const x = Math.cos(theta)*r + (Math.random()-0.5)*50;
+                const y = (Math.random()-0.5)*80*(1-r/800);
+                const z = Math.sin(theta)*r + (Math.random()-0.5)*50;
+                p.push(x,y,z);
+                const c = new THREE.Color(cInner).lerp(new THREE.Color(cOuter), r/800);
+                col.push(c.r,c.g,c.b);
+            }
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(p,3));
+            geo.setAttribute('color', new THREE.Float32BufferAttribute(col,3));
+            const m = new THREE.Points(geo, new THREE.PointsMaterial({ size:15, map:starTex, alphaTest:0.01, vertexColors:true, transparent:true, opacity:0.9, blending: THREE.AdditiveBlending }));
+            m.position.copy(pos).add(new THREE.Vector3(400, 200, -1000));
+            m.rotation.set(rotX, rotY, 0);
+            scene.add(m);
+            return m;
+        }
+        const galaxy1 = makeSpiralGalaxy(curvePoints[1], 0.5, 0.3, 0xfbbf24, 0x9333ea);
+
+        // ── 2. EDUCATION (Asteroids) ────────────────────────────────
+        const eduG = new THREE.Group();
+        eduG.position.copy(curvePoints[2]).add(new THREE.Vector3(-400, 0, -800));
+        scene.add(eduG);
+        const eduPlanet = new THREE.Mesh(new THREE.SphereGeometry(180, 64, 64), new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.8 }));
+        eduG.add(eduPlanet);
+        const asteroids = new THREE.Group();
+        for(let i=0; i<1000; i++) {
+            const r = 300 + Math.random()*400;
+            const theta = Math.random() * Math.PI * 2;
+            const y = (Math.random()-0.5)*40;
+            const mesh = new THREE.Mesh(
+                new THREE.DodecahedronGeometry(Math.random()*6+2),
+                new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.9 })
+            );
+            mesh.position.set(Math.cos(theta)*r, y, Math.sin(theta)*r);
+            mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+            asteroids.add(mesh);
+        }
+        eduG.add(asteroids);
+
+        // ── 3. SKILLS (Constellation) ───────────────────────────────
+        const nnG = new THREE.Group();
+        nnG.position.copy(curvePoints[3]).add(new THREE.Vector3(500, 0, -800));
+        scene.add(nnG);
+        const nnNodes = [];
+        for(let i=0; i<150; i++) {
+            nnNodes.push(new THREE.Vector3((Math.random()-0.5)*800, (Math.random()-0.5)*800, (Math.random()-0.5)*800));
+        }
+        const nnGeo = new THREE.BufferGeometry().setFromPoints(nnNodes);
+        nnG.add(new THREE.Points(nnGeo, new THREE.PointsMaterial({ color: 0x22d3ee, size: 12, map:starTex, transparent:true, blending:THREE.AdditiveBlending })));
+        const linesGeo = new THREE.BufferGeometry();
+        const linesPos = [];
+        for(let i=0; i<nnNodes.length; i++) {
+            for(let j=i+1; j<nnNodes.length; j++) {
+                if(nnNodes[i].distanceTo(nnNodes[j]) < 180) {
+                    linesPos.push(nnNodes[i].x, nnNodes[i].y, nnNodes[i].z, nnNodes[j].x, nnNodes[j].y, nnNodes[j].z);
+                }
+            }
+        }
+        linesGeo.setAttribute('position', new THREE.Float32BufferAttribute(linesPos, 3));
+        nnG.add(new THREE.LineSegments(linesGeo, new THREE.LineBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.15 })));
+
+        // ── 6. SATURN ───────────────────────────────────────────────
+        const saturnG = new THREE.Group();
+        saturnG.position.copy(curvePoints[5]).add(new THREE.Vector3(400, 100, -1000));
+        scene.add(saturnG);
+        saturnG.add(new THREE.Mesh(new THREE.SphereGeometry(160, 64, 64), new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.6 })));
+        const ringGeo = new THREE.RingGeometry(220, 380, 128);
+        const ringMat = new THREE.MeshStandardMaterial({ color: 0xfde047, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        ringMesh.rotation.x = Math.PI / 2.2;
+        saturnG.add(ringMesh);
+
+        // ── 7. INTERSTELLAR BLACK HOLE ──────────────────────────────
+        const bhG = new THREE.Group();
+        bhG.position.copy(curvePoints[7]); // End of the path
+        scene.add(bhG);
+        
+        // The Void (Pure Black Sphere)
+        bhG.add(new THREE.Mesh(new THREE.SphereGeometry(250, 64, 64), new THREE.MeshBasicMaterial({ color:0x000000 })));
+        
+        // Accretion Disk (Glowing Fire/Gold)
+        const accDiskGeo = new THREE.TorusGeometry(450, 60, 32, 256);
+        const accDiskMat = new THREE.MeshBasicMaterial({ color: 0xffedd5, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending });
+        const accDisk = new THREE.Mesh(accDiskGeo, accDiskMat);
+        accDisk.rotation.x = Math.PI/1.8;
+        bhG.add(accDisk);
+
+        // Inner Super-hot Ring
+        const innerRing = new THREE.Mesh(
+            new THREE.TorusGeometry(320, 20, 16, 256),
+            new THREE.MeshBasicMaterial({ color: 0xffffff, blending: THREE.AdditiveBlending })
+        );
+        innerRing.rotation.x = Math.PI/1.8;
+        bhG.add(innerRing);
+
+        // Massive Halo / Lensing Glow
+        const haloMat = new THREE.SpriteMaterial({ map: nebTex, color: 0xf59e0b, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
+        const halo = new THREE.Sprite(haloMat);
+        halo.scale.set(2000, 2000, 1);
+        bhG.add(halo);
+        bhG.add(new THREE.PointLight(0xffffff, 25, 6000));
+
+        // ── Post-Processing (Cinematic Bloom) ───────────────────────
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.2, 0.8, 0.2);
+        composer.addPass(bloomPass);
+
+        // ── Scroll & Warp Logic ─────────────────────────────────────
+        let scrollY = 0, targetScrollY = 0;
+        let lastScrollY = 0, scrollVelocity = 0;
+        
+        window.addEventListener('scroll', () => { targetScrollY = window.scrollY; });
+
+        // ── UI State ────────────────────────────────────────────────
+        const sections = document.querySelectorAll('.content-section');
+        const TOTAL = sections.length;
+        let currentIdx = -1;
+
+        function updateUI(idx) {
+            if (isMobile) {
+                sections.forEach(el => el.classList.add('active'));
+                return;
+            }
+            if(idx === currentIdx) return;
+            currentIdx = idx;
+            sections.forEach((el,i) => {
+                el.classList.remove('active','prev','next');
+                if(i===idx) el.classList.add('active');
+                else if(i<idx) el.classList.add('prev');
+                else el.classList.add('next');
+            });
+        }
+
+        // ── Animation Loop ──────────────────────────────────────────
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            // Smooth scroll & Velocity calc
+            scrollY += (targetScrollY - scrollY) * 0.05;
+            scrollVelocity = Math.abs(scrollY - lastScrollY);
+            lastScrollY = scrollY;
+            
+            const maxS = Math.max(1, document.body.scrollHeight - window.innerHeight);
+            const ratio = Math.max(0, Math.min(1, scrollY / maxS));
+
+            // Flight Path Camera Update
+            // Add slight look-ahead
+            const lookRatio = Math.min(1.0, ratio + 0.015);
+            const camPos = flightPath.getPointAt(ratio);
+            const lookPos = flightPath.getPointAt(lookRatio);
+            
+            // Mouse Parallax Offset
+            const pX = (mx/window.innerWidth - 0.5) * 200;
+            const pY = -(my/window.innerHeight - 0.5) * 200;
+            
+            camera.position.lerp(new THREE.Vector3(camPos.x + pX, camPos.y + pY, camPos.z), 0.1);
+            
+            // Look along the path
+            const targetLook = lookPos.clone().add(new THREE.Vector3(pX*0.5, pY*0.5, 0));
+            camera.lookAt(targetLook);
+            
+            // Camera banking (roll) based on horizontal movement
+            const dx = lookPos.x - camPos.x;
+            camera.rotation.z -= dx * 0.0003; 
+
+            // Warp Speed Effect (FOV stretch on fast scroll)
+            const targetFov = 50 + Math.min(scrollVelocity * 0.5, 50);
+            camera.fov += (targetFov - camera.fov) * 0.1;
+            camera.updateProjectionMatrix();
+
+            // Object Rotations
+            earthG.rotation.y = t * 0.04;
+            earthClouds.rotation.y = t * 0.055;
+            galaxy1.rotation.z = t * 0.05;
+            eduPlanet.rotation.y = t * 0.08;
+            asteroids.rotation.y = t * 0.02;
+            nnG.rotation.y = t * 0.02;
+            saturnG.rotation.y = t * 0.015;
+            
+            // Black Hole Spin
+            bhG.rotation.z = t * 0.15;
+            accDisk.rotation.z = t * 0.3;
+
+            // Update UI
+            const idx = Math.min(TOTAL-1, Math.round(ratio*(TOTAL-1)));
+            updateUI(idx);
+
+            composer.render();
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth/window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
 </html>
