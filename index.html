@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -236,23 +236,55 @@
         .gold-text { color: var(--gold); }
         .cyan-text { color: var(--cyan); }
 
-        /* Hero ΓÇö horizontal layout */
+        /* Hero — horizontal layout */
+        .profile-img-wrap {
+            position: relative;
+            width: 260px; height: 260px;
+            flex-shrink: 0;
+        }
+        /* Rotating animated ring */
+        .profile-img-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                #b87fff, #22d3ee, #fbbf24, #e879f9, #b87fff
+            );
+            animation: spinRing 4s linear infinite;
+            z-index: 0;
+        }
+        /* Subtle pulse ring */
+        .profile-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(184,127,255,0.25) 0%, transparent 70%);
+            animation: pulseRing 3s ease-in-out infinite;
+            z-index: 0;
+        }
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulseRing {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.08); }
+        }
         .profile-img {
-            width: 280px; height: 380px; border-radius: 16px;
-            object-fit: cover; flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: #020617;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative; z-index: 1;
+            border: 3px solid #0a0624;
+            box-shadow: 0 0 40px rgba(168,85,247,0.5), 0 0 80px rgba(34,211,238,0.2);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
         }
         .profile-img:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(168, 85, 247, 0.4);
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.8),
-                0 0 25px rgba(168, 85, 247, 0.2);
+            transform: scale(1.04);
+            box-shadow: 0 0 60px rgba(168,85,247,0.7), 0 0 100px rgba(34,211,238,0.3);
         }
         .hero-wrap {
             display: flex;
@@ -564,7 +596,7 @@
     <div class="vignette"></div>
 
     <script>
-    // ΓöÇΓöÇ Sparkle Canvas ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    // ── Sparkle Canvas ────────────────────────────────────────────
     (function() {
         const canvas = document.getElementById('sparkle-canvas');
         const ctx = canvas.getContext('2d');
@@ -668,14 +700,16 @@
         <div class="content-container">
             <div class="content-panel">
 
-                <!-- 0. HERO ΓÇö Horizontal, static, fits viewport -->
+                <!-- 0. HERO — Horizontal, static, fits viewport -->
                 <div class="content-section active" id="sec-0">
                     <div class="hero-wrap">
-                        <img src="profile.png" alt="Sharin Banu" class="profile-img">
+                        <div class="profile-img-wrap">
+                            <img src="profile.png" alt="Sharin Banu" class="profile-img">
+                        </div>
                         <div class="hero-text">
                             <div class="hero-eyebrow">Hi, I'm</div>
                             <div class="hero-name">Sharin<br>Banu S</div>
-                            <div class="hero-role">AI Engineer &nbsp;&middot;&nbsp; Full-Stack Developer &nbsp;&middot;&nbsp; Patent Holder</div>
+                            <div class="hero-role">AI Engineer &nbsp;·&nbsp; Full-Stack Developer &nbsp;·&nbsp; Patent Holder</div>
                             <p class="hero-tagline">
                                 Building intelligent solutions with AI, data, and modern technology.
                             </p>
@@ -704,10 +738,10 @@
 
                 <!-- 1. ABOUT -->
                 <div class="content-section glass glass-panel" id="sec-1">
-                    <span class="sec-label">Blue Nebula ΓÇö Sector 01</span>
+                    <span class="sec-label">Blue Nebula — Sector 01</span>
                     <h2 class="sec-title">About Me</h2>
                     <p class="sec-desc">
-                        I'm an AI &amp; Data Science undergraduate passionate about creating intelligent digital products through <span class="highlight">Artificial Intelligence, Machine Learning, Data Analytics, Full-Stack Development,</span> and <span class="highlight">Generative AI</span>.
+                        I'm an AI & Data Science undergraduate passionate about creating intelligent digital products through <span class="highlight">Artificial Intelligence, Machine Learning, Data Analytics, Full-Stack Development,</span> and <span class="highlight">Generative AI</span>.
                     </p>
                     <p class="sec-desc">
                         I enjoy turning complex ideas into scalable applications that deliver real-world impact. Whether it's training machine learning models, developing modern web applications, or exploring emerging AI technologies, I believe in building solutions that are innovative, efficient, and user-focused.
@@ -716,35 +750,35 @@
                         I'm constantly learning, experimenting, and embracing new technologies to prepare for the next generation of AI-driven innovation.
                     </p>
                     <p class="sec-desc" style="margin-top:1rem;">
-                        <span class="cyan-text">≡ƒôº</span> sulaimansharin2007@gmail.com
+                        <span class="cyan-text">≡✉️</span> sulaimansharin2007@gmail.com
                     </p>
                 </div>
 
                 <!-- 2. EDUCATION -->
                 <div class="content-section glass glass-panel" id="sec-2">
-                    <span class="sec-label">Solar System ΓÇö Sector 02</span>
+                    <span class="sec-label">Solar System — Sector 02</span>
                     <h2 class="sec-title">Education</h2>
 
                     <div style="display:flex; flex-direction:column; gap:1rem;">
                         <div class="project-item">
                             <div class="project-content">
-                                <div class="project-name">B.Tech ΓÇö Artificial Intelligence &amp; Data Science</div>
-                                <div class="project-tech">Sona College of Technology, Salem, India &nbsp;┬╖&nbsp; 2024 ΓÇô 2028</div>
+                                <div class="project-name">B.Tech — Artificial Intelligence & Data Science</div>
+                                <div class="project-tech">Sona College of Technology, Salem, India &nbsp;·&nbsp; 2024 – 2028</div>
                                 <p class="sec-desc" style="margin-bottom:0;">CGPA: <span class="gold-text" style="font-size:1.4rem; font-weight:700;">8.76</span> <span style="color:var(--text-dim); font-size:0.8rem;">/ 10</span></p>
                             </div>
                         </div>
 
                         <div class="project-item">
                             <div class="project-content">
-                                <div class="project-name">Higher Secondary Education ΓÇö Tamil Nadu State Board</div>
-                                <div class="project-tech">Percentage: <span class="cyan-text" style="font-size:1.2rem; font-weight:700;">86.17%</span> &nbsp;┬╖&nbsp; Completed: 2024</div>
+                                <div class="project-name">Higher Secondary Education — Tamil Nadu State Board</div>
+                                <div class="project-tech">Percentage: <span class="cyan-text" style="font-size:1.2rem; font-weight:700;">86.17%</span> &nbsp;·&nbsp; Completed: 2024</div>
                             </div>
                         </div>
 
                         <div class="project-item" style="margin-bottom:0;">
                             <div class="project-content">
-                                <div class="project-name">Secondary School Education ΓÇö Tamil Nadu State Board</div>
-                                <div class="project-tech">Percentage: <span class="cyan-text" style="font-size:1.2rem; font-weight:700;">83.8%</span> &nbsp;┬╖&nbsp; Completed: 2022</div>
+                                <div class="project-name">Secondary School Education — Tamil Nadu State Board</div>
+                                <div class="project-tech">Percentage: <span class="cyan-text" style="font-size:1.2rem; font-weight:700;">83.8%</span> &nbsp;·&nbsp; Completed: 2022</div>
                             </div>
                         </div>
                     </div>
@@ -752,7 +786,7 @@
 
                 <!-- 3. SKILLS -->
                 <div class="content-section glass glass-panel" id="sec-3">
-                    <span class="sec-label">Constellation ΓÇö Sector 03</span>
+                    <span class="sec-label">Constellation — Sector 03</span>
                     <h2 class="sec-title">Skills Map</h2>
                     <p class="sec-desc">An interconnected visualization of my technical expertise, bridging Languages, AI & Data Science, Web Development, and Core Computer Science.</p>
 
@@ -824,7 +858,7 @@
 
                 <!-- 4. PROJECTS (Part 1) -->
                 <div class="content-section glass glass-panel" id="sec-4">
-                    <span class="sec-label">Planetary System ΓÇö Sector 04</span>
+                    <span class="sec-label">Planetary System — Sector 04</span>
                     <h2 class="sec-title">Projects</h2>
                     <div class="projects-grid">
                         <!-- 1. Dog Repellent -->
@@ -833,8 +867,8 @@
                                 <img src="dog-repellent.jpg" alt="Ultrasonic Dog Repellent">
                             </div>
                             <div class="project-content">
-                                <div class="project-name">Ultrasonic Dog Repellent Device <span class="project-badge">Patent Γ£ô</span></div>
-                                <div class="project-tech">Embedded Systems ┬╖ C ┬╖ Circuit Design</div>
+                                <div class="project-name">Ultrasonic Dog Repellent Device <span class="project-badge">Patent ⚖️</span></div>
+                                <div class="project-tech">Embedded Systems · C · Circuit Design</div>
                                 <p class="sec-desc" style="margin-bottom:0.3rem;">Designed a standalone ultrasonic device to safely deter stray dogs using high-frequency sound.</p>
                                 <p class="sec-desc" style="margin-bottom:0;">Integrated sensor hardware with embedded control circuitry and optimized signal reliability through testing.</p>
                             </div>
@@ -846,11 +880,11 @@
                                 <img src="sonaconnect.png" alt="SonaConnect Dashboard">
                             </div>
                             <div class="project-content">
-                                <div class="project-name">SonaConnect ΓÇö College Event Management Platform
-                                    <a href="https://sona-connect.vercel.app/" target="_blank" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cyan);margin-left:8px;text-decoration:none;border:0.5px solid var(--cyan);padding:2px 8px;border-radius:10px;">Live Γåù</a>
-                                    <a href="https://github.com/sulaimansharin2007-glitch/SonaConnect" target="_blank" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-left:6px;text-decoration:none;border:0.5px solid rgba(255,255,255,0.15);padding:2px 8px;border-radius:10px;">GitHub Γåù</a>
+                                <div class="project-name">SonaConnect — College Event Management Platform
+                                    <a href="https://sona-connect.vercel.app/" target="_blank" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cyan);margin-left:8px;text-decoration:none;border:0.5px solid var(--cyan);padding:2px 8px;border-radius:10px;">Live ↗</a>
+                                    <a href="https://github.com/sulaimansharin2007-glitch/SonaConnect" target="_blank" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-left:6px;text-decoration:none;border:0.5px solid rgba(255,255,255,0.15);padding:2px 8px;border-radius:10px;">GitHub ↗</a>
                                 </div>
-                                <div class="project-tech">React.js ┬╖ Node.js ┬╖ Express.js ┬╖ MongoDB ┬╖ JWT ┬╖ REST APIs</div>
+                                <div class="project-tech">React.js · Node.js · Express.js · MongoDB · JWT · REST APIs</div>
                                 <p class="sec-desc" style="margin-bottom:0.3rem;">Developed a MERN-based platform for managing college events with secure role-based access control.</p>
                                 <p class="sec-desc" style="margin-bottom:0;">Implemented event registration, notifications, and an analytics dashboard for students and administrators.</p>
                             </div>
@@ -860,7 +894,7 @@
 
                 <!-- 5. PROJECTS (Part 2) -->
                 <div class="content-section glass glass-panel" id="sec-5">
-                    <span class="sec-label">Planetary System ΓÇö Sector 04 (Continued)</span>
+                    <span class="sec-label">Planetary System — Sector 04 (Continued)</span>
                     <h2 class="sec-title">More Projects</h2>
                     <div class="projects-grid">
                         <!-- 3. Placence -->
@@ -869,8 +903,8 @@
                                 <img src="placence.png" alt="Placence Dashboard">
                             </div>
                             <div class="project-content">
-                                <div class="project-name">Placence ΓÇö Job Prediction &amp; Skill Recommendation</div>
-                                <div class="project-tech">React.js ┬╖ Node.js ┬╖ Express.js ┬╖ MongoDB ┬╖ JWT</div>
+                                <div class="project-name">Placence — Job Prediction & Skill Recommendation</div>
+                                <div class="project-tech">React.js · Node.js · Express.js · MongoDB · JWT</div>
                                 <p class="sec-desc" style="margin-bottom:0.3rem;">Built a MERN application that predicts suitable job roles based on students' academic performance.</p>
                                 <p class="sec-desc" style="margin-bottom:0;">Developed personalized skill recommendations and an interactive analytics dashboard.</p>
                             </div>
@@ -883,7 +917,7 @@
                             </div>
                             <div class="project-content">
                                 <div class="project-name">Smart Jewelry Safety Device</div>
-                                <div class="project-tech">TechSHEvate 2025 ┬╖ GPS ┬╖ GSM ┬╖ Concept Design</div>
+                                <div class="project-tech">TechSHEvate 2025 · GPS · GSM · Concept Design</div>
                                 <p class="sec-desc" style="margin-bottom:0.3rem;">Designed a wearable emergency safety system with GPS tracking and GSM-based SOS alerts.</p>
                                 <p class="sec-desc" style="margin-bottom:0;">Proposed panic-triggered location sharing for enhanced women's safety.</p>
                             </div>
@@ -891,9 +925,9 @@
                     </div>
                 </div>
 
-                <!-- 6. CERTIFICATIONS ΓÇö 3-col compact grid -->
+                <!-- 6. CERTIFICATIONS — 3-col compact grid -->
                 <div class="content-section glass glass-panel" id="sec-6">
-                    <span class="sec-label">Cosmic Archive ΓÇö Sector 05</span>
+                    <span class="sec-label">Cosmic Archive — Sector 05</span>
                     <h2 class="sec-title">Certifications</h2>
                     <div class="certs-outer" style="grid-template-columns: 1fr 1fr 1fr 1fr; gap:0.8rem;">
                         <div>
@@ -938,14 +972,14 @@
                             </div>
                         </div>
                         <div>
-                            <p class="sec-desc" style="font-size:0.72rem;letter-spacing:3px;color:var(--purple);text-transform:uppercase;margin-bottom:0.6rem;font-weight:700;">NASSCOM &amp; Others</p>
+                            <p class="sec-desc" style="font-size:0.72rem;letter-spacing:3px;color:var(--purple);text-transform:uppercase;margin-bottom:0.6rem;font-weight:700;">NASSCOM & Others</p>
                             <div class="cert-item">
                                 <div class="cert-badge" style="background:rgba(192,132,252,0.15);color:var(--purple);">NAS</div>
                                 <div class="cert-info"><div class="cert-title">Digital 101</div></div>
                             </div>
                             <div class="cert-item">
                                 <div class="cert-badge" style="background:rgba(192,132,252,0.15);color:var(--purple);">NAS</div>
-                                <div class="cert-info"><div class="cert-title">Data Acquisition &amp; Visualization</div></div>
+                                <div class="cert-info"><div class="cert-title">Data Acquisition & Visualization</div></div>
                             </div>
                             <div class="cert-item">
                                 <div class="cert-badge" style="background:rgba(192,132,252,0.15);color:var(--purple);">NAS</div>
@@ -953,22 +987,22 @@
                             </div>
                             <div class="cert-item">
                                 <div class="cert-badge" style="background:rgba(34,211,238,0.12);color:var(--cyan);">AI</div>
-                                <div class="cert-info"><div class="cert-title">AI for Starters</div><div class="cert-sub">Karpagam College ┬╖ 2025</div></div>
+                                <div class="cert-info"><div class="cert-title">AI for Starters</div><div class="cert-sub">Karpagam College · 2025</div></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 6. ACHIEVEMENTS ΓÇö 2-col compact grid -->
+                <!-- 6. ACHIEVEMENTS — 2-col compact grid -->
                 <div class="content-section glass glass-panel" id="sec-6">
-                    <span class="sec-label">Golden Nebula Core ΓÇö Sector 06</span>
+                    <span class="sec-label">Golden Nebula Core — Sector 06</span>
                     <h2 class="sec-title">Achievements</h2>
                     <div class="achievements-grid">
                         <div class="timeline-item">
                             <div class="timeline-dot gold"></div>
                             <div>
                                 <div class="project-name" style="font-size:0.82rem;">Academic Excellence Award</div>
-                                <div class="project-tech">Sona College of Technology &nbsp;┬╖&nbsp; 2024ΓÇô2025 &amp; 2025ΓÇô2026</div>
+                                <div class="project-tech">Sona College of Technology · 2024–2025 & 2025–2026</div>
                                 <p class="sec-desc" style="margin-bottom:0;">Recognized for sustained top-tier academic performance across consecutive semesters.</p>
                             </div>
                         </div>
@@ -983,8 +1017,8 @@
                         <div class="timeline-item">
                             <div class="timeline-dot gold"></div>
                             <div>
-                                <div class="project-name" style="font-size:0.82rem;">NPTEL ΓÇö Design Thinking Top 5%</div>
-                                <div class="project-tech">Design Thinking ΓÇô A Primer ┬╖ NPTEL</div>
+                                <div class="project-name" style="font-size:0.82rem;">NPTEL — Design Thinking Top 5%</div>
+                                <div class="project-tech">Design Thinking — A Primer · NPTEL</div>
                                 <p class="sec-desc" style="margin-bottom:0;">Achieved Top 5% performer recognition out of all national participants.</p>
                             </div>
                         </div>
@@ -992,15 +1026,15 @@
                             <div class="timeline-dot cyan"></div>
                             <div>
                                 <div class="project-name" style="font-size:0.82rem;">ISTE Ramanujan Math Competition</div>
-                                <div class="project-tech">National Level ┬╖ Qualified Levels 1 &amp; 2 ┬╖ 2024 &amp; 2025</div>
+                                <div class="project-tech">National Level · Qualified Levels 1 & 2 · 2024 & 2025</div>
                                 <p class="sec-desc" style="margin-bottom:0;">Qualified both Level 1 and Level 2 in the prestigious ISTE National-Level Mathematics Competition.</p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot purple"></div>
                             <div>
-                                <div class="project-name" style="font-size:0.82rem;">Hackathons &amp; Competitive Events</div>
-                                <div class="project-tech">TechSHEvate 2025 &amp; Various</div>
+                                <div class="project-name" style="font-size:0.82rem;">Hackathons & Competitive Events</div>
+                                <div class="project-tech">TechSHEvate 2025 & Various</div>
                                 <p class="sec-desc" style="margin-bottom:0;">Contributed to ideation, problem-solving, and technical presentations in hackathons including TechSHEvate 2025.</p>
                             </div>
                         </div>
@@ -1009,7 +1043,7 @@
 
                 <!-- 8. CONTACT -->
                 <div class="content-section glass glass-panel" id="sec-8">
-                    <span class="sec-label">Edge of the Universe ΓÇö Sector 07</span>
+                    <span class="sec-label">Edge of the Universe — Sector 07</span>
                     <h2 class="sec-title">Comm Link</h2>
                     <p class="sec-desc">All transmission channels actively monitored. Initiate contact for collaborations, internship opportunities, or to connect across the cosmos.</p>
                     <p class="sec-desc" style="font-weight: 600; color: #ffffff; margin-top: 1rem; margin-bottom: 1.5rem;">
@@ -1019,7 +1053,7 @@
                     <div class="contact-links interactive">
                         <!-- Email -->
                         <a href="mailto:sulaimansharin2007@gmail.com" class="contact-link interactive">
-                            <span>Γ£ë</span>
+                            <span>📧</span>
                             <div>
                                 <div class="contact-link-label">Email</div>
                                 <div class="contact-link-sub">sulaimansharin2007@gmail.com</div>
@@ -1027,7 +1061,7 @@
                         </a>
                         <!-- LinkedIn -->
                         <a href="https://www.linkedin.com/in/sharin-banu-s-b31252358" target="_blank" class="contact-link interactive">
-                            <span>Γùê</span>
+                            <span>🔗</span>
                             <div>
                                 <div class="contact-link-label">LinkedIn</div>
                                 <div class="contact-link-sub">linkedin.com/in/sharin-banu-s-b31252358</div>
@@ -1035,7 +1069,7 @@
                         </a>
                         <!-- GitHub -->
                         <a href="https://github.com/sulaimansharin2007-glitch" target="_blank" class="contact-link interactive">
-                            <span>ΓîÑ</span>
+                            <span>💻</span>
                             <div>
                                 <div class="contact-link-label">GitHub</div>
                                 <div class="contact-link-sub">sulaimansharin2007-glitch</div>
@@ -1043,9 +1077,9 @@
                         </a>
                         <!-- Live -->
                         <a href="https://sona-connect.vercel.app/" target="_blank" class="contact-link interactive">
-                            <span>Γùë</span>
+                            <span>🌐</span>
                             <div>
-                                <div class="contact-link-label">SonaConnect ΓÇö Live App</div>
+                                <div class="contact-link-label">SonaConnect — Live App</div>
                                 <div class="contact-link-sub">sona-connect.vercel.app</div>
                             </div>
                         </a>
@@ -1062,7 +1096,7 @@
         import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-        // ΓöÇΓöÇ Cursor ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── Cursor ────────────────────────────────────────────
         const dot = document.querySelector('.cursor-dot');
         const ring = document.querySelector('.cursor-ring');
         let mx = window.innerWidth/2, my = window.innerHeight/2;
@@ -1082,19 +1116,38 @@
         }
         updateCursor();
 
-        // ΓöÇΓöÇ Three.js Scene ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-        // Generate circular star texture for particles
+        // ── Three.js Scene ────────────────────────────────────────────
+        // Generate HD circular star texture with cross-spike for extra brightness
         const canvas = document.createElement('canvas');
-        canvas.width = 32; canvas.height = 32;
+        canvas.width = 64; canvas.height = 64;
         const ctx = canvas.getContext('2d');
-        const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-        grad.addColorStop(0, 'rgba(255,255,255,1)');
-        grad.addColorStop(0.2, 'rgba(255,255,255,0.8)');
-        grad.addColorStop(0.5, 'rgba(255,255,255,0.2)');
-        grad.addColorStop(1, 'rgba(255,255,255,0)');
+        const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        grad.addColorStop(0,   'rgba(255,255,255,1)');
+        grad.addColorStop(0.1, 'rgba(255,255,255,0.95)');
+        grad.addColorStop(0.3, 'rgba(200,180,255,0.5)');
+        grad.addColorStop(0.6, 'rgba(100,100,255,0.15)');
+        grad.addColorStop(1,   'rgba(0,0,0,0)');
         ctx.fillStyle = grad;
-        ctx.beginPath(); ctx.arc(16, 16, 16, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(32, 32, 32, 0, Math.PI*2); ctx.fill();
+        // Diffraction spike
+        ctx.globalAlpha = 0.4;
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.moveTo(32,0); ctx.lineTo(32,64); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0,32); ctx.lineTo(64,32); ctx.stroke();
         const starTex = new THREE.CanvasTexture(canvas);
+
+        // Sprite texture for volumetric nebula clouds
+        const nebCanvas = document.createElement('canvas');
+        nebCanvas.width = 128; nebCanvas.height = 128;
+        const nebCtx = nebCanvas.getContext('2d');
+        const nebGrad = nebCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+        nebGrad.addColorStop(0,   'rgba(255,255,255,0.9)');
+        nebGrad.addColorStop(0.4, 'rgba(255,255,255,0.3)');
+        nebGrad.addColorStop(1,   'rgba(255,255,255,0)');
+        nebCtx.fillStyle = nebGrad;
+        nebCtx.beginPath(); nebCtx.arc(64,64,64,0,Math.PI*2); nebCtx.fill();
+        const nebTex = new THREE.CanvasTexture(nebCanvas);
 
         const scene = new THREE.Scene();
         scene.fog = new THREE.FogExp2(0x020617, 0.0007);
@@ -1102,22 +1155,22 @@
         const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.5, 25000);
         camera.position.set(0, 0, 0);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5)); // HD: allow 2.5x on Retina
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.3;
+        renderer.toneMappingExposure = 1.8; // Brighter, more cinematic
         document.getElementById('webgl-container').appendChild(renderer.domElement);
 
         const Z = 2800; // spacing per section
 
-        // ΓöÇΓöÇ Lights ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── Lights ────────────────────────────────────────────
         scene.add(new THREE.AmbientLight(0x050a1a, 2));
         // Giant sun light source
         const sunLight = new THREE.PointLight(0xffe8a0, 10, 8000);
         sunLight.position.set(600, 300, 200);
         scene.add(sunLight);
-        // Rim fill ΓÇö deep blue
+        // Rim fill — deep blue
         const fillLight = new THREE.DirectionalLight(0x22d3ee, 0.8);
         fillLight.position.set(-1, 0.5, 1);
         scene.add(fillLight);
@@ -1126,7 +1179,7 @@
         warmFill.position.set(0, -400, -500);
         scene.add(warmFill);
 
-        // ΓöÇΓöÇ Background Stars (Two Layers) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── Background Stars (Two Layers) ────────────────────────────────────────────
         function makeStarField(count, spread, zRange, size, opacity) {
             const geo = new THREE.BufferGeometry();
             const pos = [], col = [];
@@ -1147,33 +1200,81 @@
             const mat = new THREE.PointsMaterial({ size, vertexColors:true, transparent:true, opacity, sizeAttenuation:true });
             return new THREE.Points(geo, mat);
         }
-        scene.add(makeStarField(12000, 5000, Z*10, 2.5, 1.0)); // Larger, fully opaque
-        scene.add(makeStarField(5000, 8000, Z*12, 1.5, 0.7)); // Brighter background layer
+        scene.add(makeStarField(20000, 6000, Z*10, 3.0, 1.0)); // HD: more stars, bigger
+        scene.add(makeStarField(8000,  9000, Z*12, 1.8, 0.8)); // distant faint layer
+        scene.add(makeStarField(3000,  3000, Z*8,  4.5, 0.9)); // bright foreground hero stars
 
-        // ΓöÇΓöÇ 0. HERO (Earth) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── Volumetric Nebula Sprite Clouds (HD upgrade) ────────────
+        const nebColors = [
+            { color: 0x9333ea, z: -2000 }, { color: 0x1d4ed8, z: -4000 },
+            { color: 0xbe185d, z: -7000 }, { color: 0x0891b2, z: -10000 },
+            { color: 0x7c3aed, z: -14000 },{ color: 0xb45309, z: -18000 },
+        ];
+        nebColors.forEach(({ color, z }) => {
+            for (let i = 0; i < 8; i++) {
+                const spr = new THREE.Sprite(new THREE.SpriteMaterial({
+                    map: nebTex, color,
+                    transparent: true, opacity: 0.07 + Math.random() * 0.08,
+                    blending: THREE.AdditiveBlending, depthWrite: false
+                }));
+                const s = 1800 + Math.random() * 2500;
+                spr.scale.set(s, s, 1);
+                spr.position.set(
+                    (Math.random() - 0.5) * 4000,
+                    (Math.random() - 0.5) * 3000,
+                    z + (Math.random() - 0.5) * 1500
+                );
+                scene.add(spr);
+            }
+        });
+
+        // ── 0. HERO (Earth) ────────────────────────────────────────────
         const earthG = new THREE.Group();
         earthG.position.set(-150, -20, -800);
         scene.add(earthG);
-        // Ocean layer
+        // Ocean layer (HD: higher segments)
         earthG.add(new THREE.Mesh(
-            new THREE.SphereGeometry(120, 64, 64),
-            new THREE.MeshStandardMaterial({ color: 0x0e4fa8, roughness: 0.4, metalness: 0.05 })
+            new THREE.SphereGeometry(120, 128, 128),
+            new THREE.MeshStandardMaterial({ color: 0x0c3d8f, roughness: 0.3, metalness: 0.15, emissive: 0x020c2a, emissiveIntensity: 0.3 })
         ));
         // Land masses
         earthG.add(new THREE.Mesh(
-            new THREE.SphereGeometry(120.5, 64, 64),
-            new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.9, transparent: true, opacity: 0.55 })
+            new THREE.SphereGeometry(120.8, 128, 128),
+            new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.9, transparent: true, opacity: 0.6 })
         ));
         // Cloud layer
         const earthClouds = new THREE.Mesh(
-            new THREE.SphereGeometry(122, 48, 48),
-            new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, roughness: 1.0 })
+            new THREE.SphereGeometry(123, 64, 64),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.22, roughness: 1.0 })
         );
         earthG.add(earthClouds);
+        // HD: Atmospheric rim glow shader
+        const atmosMat = new THREE.ShaderMaterial({
+            uniforms: { glowColor: { value: new THREE.Color(0x3b82f6) } },
+            vertexShader: `
+                varying vec3 vNormal;
+                void main() {
+                    vNormal = normalize(normalMatrix * normal);
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 glowColor;
+                varying vec3 vNormal;
+                void main() {
+                    float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 5.0);
+                    gl_FragColor = vec4(glowColor, 1.0) * intensity;
+                }
+            `,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true
+        });
+        earthG.add(new THREE.Mesh(new THREE.SphereGeometry(135, 64, 64), atmosMat));
         // Earth point light
-        earthG.add(new THREE.PointLight(0x4488ff, 3, 600));
+        earthG.add(new THREE.PointLight(0x4488ff, 5, 900));
 
-        // ΓöÇΓöÇ 1. ABOUT (Spiral Galaxies) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 1. ABOUT (Spiral Galaxies) ────────────────────────────────────────────
         function makeSpiralGalaxy(centerZ, rotX, rotY) {
             const geo = new THREE.BufferGeometry();
             const pos = [], col = [];
@@ -1202,7 +1303,7 @@
         const galaxy2 = makeSpiralGalaxy(-4500, -0.3, 1.1);
         scene.add(galaxy1, galaxy2);
 
-        // ΓöÇΓöÇ Milky Way band (Spans whole scene) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── Milky Way band (Spans whole scene) ────────────────────────────
         const mwGeo = new THREE.BufferGeometry();
         const mwPos = [];
         for(let i=0;i<5000;i++) {
@@ -1214,7 +1315,7 @@
         mwGeo.setAttribute('position', new THREE.Float32BufferAttribute(mwPos,3));
         scene.add(new THREE.Points(mwGeo, new THREE.PointsMaterial({color:0x6b8cff, map:starTex, alphaTest:0.01, size:2.5, transparent:true, opacity:0.35})));
 
-        // ΓöÇΓöÇ 2. EDUCATION (Glowing Gas Planet & Asteroid Belt) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 2. EDUCATION (Glowing Gas Planet & Asteroid Belt) ───────────────
         const eduG = new THREE.Group();
         eduG.position.set(160, -30, -5600);
         scene.add(eduG);
@@ -1262,7 +1363,7 @@
         }
         eduG.add(asteroids);
 
-        // ΓöÇΓöÇ 3. SKILLS (Constellation Map) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 3. SKILLS (Constellation Map) ────────────────────────────
         const nnG = new THREE.Group();
         nnG.position.set(0, 0, -10200);
         scene.add(nnG);
@@ -1277,7 +1378,7 @@
         nnG.add(nnNodes);
         // Background chains removed as requested. Nodes remain for starry effect.
 
-        // ΓöÇΓöÇ 4. PROJECTS (Nebula Clouds) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 4. PROJECTS (Nebula Clouds) ────────────────────────────
         function makeNebula(cx, cy, cz, color, count=2500, spread=500) {
             const geo = new THREE.BufferGeometry();
             const pos = [];
@@ -1292,7 +1393,7 @@
         scene.add(makeNebula(200, 100, -13200, 0xc084fc, 4000, 700));   
         scene.add(makeNebula(-300, -100, -13800, 0x3b82f6, 3500, 600)); 
 
-        // ΓöÇΓöÇ 5. CERTIFICATIONS (Comets) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 5. CERTIFICATIONS (Comets) ────────────────────────────
         const comets = [];
         for(let i=0; i<15; i++) {
             const cGeo = new THREE.SphereGeometry(2, 16, 16);
@@ -1312,7 +1413,7 @@
             scene.add(comet);
         }
 
-        // ΓöÇΓöÇ 6. ACHIEVEMENTS (Bright Saturn) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 6. ACHIEVEMENTS (Bright Saturn) ────────────────────────────
         const saturnG = new THREE.Group();
         saturnG.position.set(-350, 150, -19600); 
         scene.add(saturnG);
@@ -1326,7 +1427,7 @@
             new THREE.SphereGeometry(182, 32, 32),
             new THREE.MeshStandardMaterial({ color: 0xe8c97a, transparent: true, opacity: 0.25 })
         ));
-        // Ring system ΓÇö original bright golden rings
+        // Ring system — original bright golden rings
         const ringData = [
             { inner: 230, outer: 290, color: 0xc8a96e, opacity: 0.8 },
             { inner: 295, outer: 350, color: 0xb8956a, opacity: 0.6 },
@@ -1344,27 +1445,39 @@
         saturnLight.position.set(400, 300, 400);
         saturnG.add(saturnLight);
 
-        // ΓöÇΓöÇ 7. CONTACT (Black Hole) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ── 7. CONTACT (Black Hole) ────────────────────────────
         const bhG = new THREE.Group();
         bhG.position.set(150, 20, -22800);
         scene.add(bhG);
-        bhG.add(new THREE.Mesh(new THREE.SphereGeometry(140, 64, 64), new THREE.MeshBasicMaterial({ color:0x000000 })));
-        // Accretion disk
+        bhG.add(new THREE.Mesh(new THREE.SphereGeometry(140, 128, 128), new THREE.MeshBasicMaterial({ color:0x000000 })));
+        // HD Accretion disk — warm orange/white
         const accDisk = new THREE.Mesh(
-            new THREE.TorusGeometry(240, 24, 32, 128),
-            new THREE.MeshBasicMaterial({ color:0xffffff })
+            new THREE.TorusGeometry(260, 28, 64, 256),
+            new THREE.MeshBasicMaterial({ color: 0xff9a3c })
         );
         accDisk.rotation.x = Math.PI/1.8;
         bhG.add(accDisk);
-        // Inner intense glow ring
+        // Inner intense glow ring — photon sphere
         const innerRing = new THREE.Mesh(
-            new THREE.TorusGeometry(180, 8, 16, 128),
-            new THREE.MeshBasicMaterial({ color:0xfbbf24 })
+            new THREE.TorusGeometry(185, 10, 32, 256),
+            new THREE.MeshBasicMaterial({ color: 0xffffff })
         );
         innerRing.rotation.x = Math.PI/1.8;
         bhG.add(innerRing);
+        // Outer dim secondary ring
+        const outerRing = new THREE.Mesh(
+            new THREE.TorusGeometry(340, 8, 16, 256),
+            new THREE.MeshBasicMaterial({ color: 0xff6a00, transparent: true, opacity: 0.4 })
+        );
+        outerRing.rotation.x = Math.PI/1.8;
+        bhG.add(outerRing);
+        // Volumetric halo sprite
+        const bhHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebTex, color: 0xff8800, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending }));
+        bhHalo.scale.set(2200, 2200, 1);
+        bhG.add(bhHalo);
         // Event horizon intense light
-        bhG.add(new THREE.PointLight(0xffffff, 15, 2500));
+        bhG.add(new THREE.PointLight(0xffa040, 25, 3500));
+        bhG.add(new THREE.PointLight(0xffffff, 10, 1200));
 
         // ΓöÇΓöÇ Post-Processing ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
         const composer = new EffectComposer(renderer);
