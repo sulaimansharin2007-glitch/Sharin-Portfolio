@@ -82,7 +82,7 @@
             filter: drop-shadow(0 0 8px rgba(34,211,238,0.8));
         }
         .cursor-dot::after {
-            content: '≡ƒÜÇ';
+            content: '\1F680';
             position: absolute; top: 0; left: 0;
             transform: rotate(-10deg);
         }
@@ -1218,51 +1218,6 @@
             }
         });
 
-        // ── 0. HERO (Earth) ────────────────────────────────────────────
-        const earthG = new THREE.Group();
-        earthG.position.set(600, -200, -1800); // Moved far right + deeper so it doesn't overlap hero text
-        scene.add(earthG);
-        // Ocean layer (HD: higher segments)
-        earthG.add(new THREE.Mesh(
-            new THREE.SphereGeometry(120, 128, 128),
-            new THREE.MeshStandardMaterial({ color: 0x0c3d8f, roughness: 0.3, metalness: 0.15, emissive: 0x020c2a, emissiveIntensity: 0.3 })
-        ));
-        // Land masses
-        earthG.add(new THREE.Mesh(
-            new THREE.SphereGeometry(120.8, 128, 128),
-            new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.9, transparent: true, opacity: 0.6 })
-        ));
-        // Cloud layer
-        const earthClouds = new THREE.Mesh(
-            new THREE.SphereGeometry(123, 64, 64),
-            new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.22, roughness: 1.0 })
-        );
-        earthG.add(earthClouds);
-        // HD: Atmospheric rim glow shader
-        const atmosMat = new THREE.ShaderMaterial({
-            uniforms: { glowColor: { value: new THREE.Color(0x3b82f6) } },
-            vertexShader: `
-                varying vec3 vNormal;
-                void main() {
-                    vNormal = normalize(normalMatrix * normal);
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                uniform vec3 glowColor;
-                varying vec3 vNormal;
-                void main() {
-                    float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 5.0);
-                    gl_FragColor = vec4(glowColor, 1.0) * intensity;
-                }
-            `,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            transparent: true
-        });
-        earthG.add(new THREE.Mesh(new THREE.SphereGeometry(135, 64, 64), atmosMat));
-        // Earth point light
-        earthG.add(new THREE.PointLight(0x4488ff, 5, 900));
 
         // ── 1. ABOUT (Spiral Galaxies) ────────────────────────────────────────────
         function makeSpiralGalaxy(centerZ, rotX, rotY) {
@@ -1543,10 +1498,7 @@
             camera.position.y += (mouseY*12 - camera.position.y) * 0.04;
             camera.rotation.z = Math.sin(t*0.05) * 0.005; // Tiny drift
 
-            // Section 0: Earth
-            earthG.rotation.y = t * 0.04;
-            earthClouds.rotation.y = t * 0.055;
-            earthClouds.rotation.x = t * 0.01;
+            // Section 0: Earth removed
 
             // Section 1: Galaxies
             galaxy1.rotation.y = t * 0.003;
