@@ -584,18 +584,19 @@
         ═══════════════════════════════════════════════ */
         @media (max-width: 768px) {
 
-            /* Hide rocket cursor on touch screens */
+            /* Disable desktop custom cursor */
             .cursor-dot, .cursor-ring { display: none !important; }
             * { cursor: auto !important; }
 
-            /* Body — allow normal scroll on mobile */
+            /* Standard smooth vertical scrolling body */
             body { 
                 height: auto !important; 
                 min-height: 100vh !important;
+                overflow-x: hidden !important;
                 overflow-y: auto !important;
             }
 
-            /* Canvas fixed background */
+            /* Fixed cosmic background canvas */
             #webgl-container, #sparkle-canvas, .vignette {
                 position: fixed !important;
                 top: 0; left: 0;
@@ -603,47 +604,48 @@
                 z-index: -1;
             }
 
-            /* HUD — small and clean */
+            /* Clean top HUD status */
             .hud-overlay { 
                 position: fixed !important;
-                padding: 0.8rem 1rem !important; 
+                padding: 0.75rem 1rem !important; 
                 font-size: 0.55rem !important; 
                 pointer-events: none !important;
+                z-index: 100 !important;
             }
 
-            /* Scroll prompt — hide on mobile */
             .scroll-prompt { display: none !important; }
+            .hud-nav { display: none !important; }
 
-            /* UI Layer — standard relative container for continuous vertical scrolling */
+            /* Main container layer */
             #ui-layer {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
                 width: 100% !important;
                 height: auto !important;
-                padding: 1.5rem 1rem 3rem 1rem !important;
+                padding: 2.5rem 0.8rem 4rem 0.8rem !important;
                 display: block !important;
                 pointer-events: auto !important;
             }
 
-            /* Content container — full width stack */
             .content-container {
                 display: block !important;
                 width: 100% !important;
                 max-width: 100% !important;
                 height: auto !important;
-                overflow: visible !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
             }
 
             .content-panel {
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 2rem !important;
+                gap: 1.8rem !important;
                 width: 100% !important;
                 height: auto !important;
             }
 
-            /* All sections continuously visible on mobile */
+            /* Clean Card Container on mobile */
             .content-section {
                 position: relative !important;
                 top: auto !important;
@@ -658,20 +660,17 @@
                 transition: none !important;
             }
 
-            /* Remove card background opacity issues on mobile */
             .glass-panel {
-                padding: 1.2rem 1rem !important;
-                background: rgba(10, 6, 36, 0.75) !important;
-                border-radius: 16px !important;
-                border: 1px solid rgba(139, 92, 246, 0.25) !important;
-                backdrop-filter: blur(12px) !important;
-                -webkit-backdrop-filter: blur(12px) !important;
+                padding: 1.5rem 1.2rem !important;
+                background: rgba(12, 6, 36, 0.82) !important;
+                border-radius: 20px !important;
+                border: 1px solid rgba(139, 92, 246, 0.3) !important;
+                backdrop-filter: blur(16px) !important;
+                -webkit-backdrop-filter: blur(16px) !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
             }
 
-            /* Left navigation — hide on mobile */
-            .hud-nav { display: none !important; }
-
-            /* Hero section layout */
+            /* Hero Alignment */
             .hero-wrap {
                 flex-direction: column !important;
                 align-items: center !important;
@@ -682,73 +681,97 @@
             }
 
             .profile-img-wrap {
-                width: 140px !important;
-                height: 140px !important;
-                margin: 0 auto !important;
+                width: 150px !important;
+                height: 150px !important;
+                margin: 0 auto 0.5rem auto !important;
             }
 
             .profile-img {
-                width: 140px !important;
-                height: 140px !important;
+                width: 150px !important;
+                height: 150px !important;
             }
 
+            .hero-eyebrow { 
+                justify-content: center !important; 
+                margin-bottom: 0.4rem !important;
+                font-size: 0.72rem !important;
+            }
+            .hero-eyebrow::before { display: none !important; }
+
             .hero-name {
-                font-size: 2.4rem !important;
+                font-size: 2.6rem !important;
                 letter-spacing: 1px !important;
-                line-height: 1.15 !important;
-                margin-bottom: 0.5rem !important;
+                line-height: 1.12 !important;
+                margin-bottom: 0.6rem !important;
             }
 
             .hero-role {
-                font-size: 0.75rem !important;
+                font-size: 0.72rem !important;
                 letter-spacing: 1.5px !important;
-                margin-bottom: 0.8rem !important;
-                word-break: break-word !important;
+                margin-bottom: 0.9rem !important;
+                line-height: 1.5 !important;
             }
 
             .hero-tagline {
                 font-size: 0.9rem !important;
                 line-height: 1.6 !important;
                 max-width: 100% !important;
-                margin-bottom: 1.2rem !important;
+                margin-bottom: 1.4rem !important;
+                color: #d8ceff !important;
             }
 
-            .hero-eyebrow { 
-                justify-content: center !important; 
-                margin-bottom: 0.5rem !important;
-            }
-            .hero-eyebrow::before { display: none !important; }
-
+            /* Balanced 2x2 Stats Grid for Mobile */
             .hero-stats {
-                gap: 1.2rem !important;
-                flex-wrap: wrap !important;
-                justify-content: center !important;
-                margin-bottom: 0.5rem !important;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 1.2rem 1rem !important;
+                width: 100% !important;
+                max-width: 320px !important;
+                margin: 0 auto 0.5rem auto !important;
+                padding: 0.8rem !important;
+                background: rgba(255, 255, 255, 0.03) !important;
+                border-radius: 12px !important;
+                border: 1px solid rgba(255, 255, 255, 0.06) !important;
             }
 
-            .hero-stat-val { font-size: 1.6rem !important; }
-            .hero-stat-label { font-size: 0.65rem !important; }
+            .hero-stat {
+                align-items: center !important;
+                text-align: center !important;
+            }
 
-            /* Section headers */
-            .sec-title {
-                font-size: 1.5rem !important;
+            .hero-stat-val { 
+                font-size: 1.7rem !important; 
+                line-height: 1 !important;
+            }
+
+            .hero-stat-label { 
+                font-size: 0.62rem !important; 
                 letter-spacing: 1.5px !important;
-                margin-bottom: 0.8rem !important;
-                word-break: break-word !important;
+                margin-top: 4px !important;
             }
 
+            /* Section Headers */
             .sec-label {
                 font-size: 0.62rem !important;
                 letter-spacing: 3px !important;
+                margin-bottom: 0.3rem !important;
+            }
+
+            .sec-title {
+                font-size: 1.55rem !important;
+                letter-spacing: 1.5px !important;
+                margin-bottom: 0.8rem !important;
+                line-height: 1.25 !important;
             }
 
             .sec-desc {
                 font-size: 0.88rem !important;
                 line-height: 1.65 !important;
                 max-width: 100% !important;
+                margin-bottom: 0.8rem !important;
             }
 
-            /* Projects list */
+            /* Project Items */
             .projects-grid { 
                 display: flex !important;
                 flex-direction: column !important;
@@ -758,47 +781,56 @@
             .project-item {
                 flex-direction: column !important;
                 gap: 0.8rem !important;
-                padding: 0.8rem !important;
+                padding: 0.9rem !important;
+                background: rgba(255, 255, 255, 0.02) !important;
+                border-radius: 12px !important;
             }
 
             .project-img-placeholder {
                 width: 100% !important;
-                height: 140px !important;
+                height: 130px !important;
             }
 
-            /* Skills container */
+            .project-name {
+                font-size: 0.95rem !important;
+                line-height: 1.35 !important;
+            }
+
+            /* Skills Interactive Graph Container */
             .skills-map-container {
-                height: 240px !important;
-                min-height: 240px !important;
+                height: 260px !important;
+                min-height: 260px !important;
                 margin-top: 0.8rem !important;
+                border-radius: 10px !important;
             }
 
             .s-node.main .s-label { font-size: 0.65rem !important; }
             .s-node.sub .s-label { font-size: 0.55rem !important; }
 
-            /* Achievements grid */
+            /* Achievements */
             .achievements-grid {
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 0.8rem !important;
+                gap: 0.9rem !important;
             }
 
-            /* Certifications grid */
+            /* Certifications */
             .certs-outer {
                 display: flex !important;
                 flex-direction: column !important;
                 gap: 1rem !important;
             }
 
-            /* Contact links */
+            /* Contact Section */
             .contact-links {
                 width: 100% !important;
                 max-width: 100% !important;
+                gap: 0.6rem !important;
             }
 
             .contact-link {
-                padding: 0.6rem 0.7rem !important;
-                font-size: 0.8rem !important;
+                padding: 0.75rem 0.9rem !important;
+                font-size: 0.82rem !important;
             }
 
             .contact-link-sub {
