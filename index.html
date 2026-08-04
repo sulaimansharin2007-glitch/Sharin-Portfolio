@@ -676,16 +676,6 @@
             <span class="hud-glitch">SYS_NAV: ACTIVE</span>
             <span class="hud-telemetry">SECTOR: <span id="hud-sector">00</span></span>
         </div>
-        <div class="hud-corner top-right">
-            <span>VELOCITY: <span id="hud-velocity">0.00</span>c</span>
-            <span>ALTITUDE: <span id="hud-altitude">0</span> LY</span>
-        </div>
-        <div class="hud-corner bottom-left">
-            <span>COORDS: X-<span id="hud-coord-x">0</span> Y-<span id="hud-coord-y">0</span></span>
-        </div>
-        <div class="hud-corner bottom-right">
-            <span class="hud-pulse">FLIGHT COMPUTER ONLINE</span>
-        </div>
     </div>
 
     <div class="scroll-prompt" id="scrollPrompt">
@@ -704,7 +694,7 @@
                 <div class="content-section active" id="sec-0">
                     <div class="hero-wrap">
                         <div class="profile-img-wrap">
-                            <img src="profile.png" alt="Sharin Banu" class="profile-img">
+                            <img src="assets/profile.png" alt="Sharin Banu" class="profile-img">
                         </div>
                         <div class="hero-text">
                             <div class="hero-eyebrow">Hi, I'm</div>
@@ -1175,7 +1165,7 @@
         fillLight.position.set(-1, 0.5, 1);
         scene.add(fillLight);
         // Warm fill from below
-        const warmFill = new THREE.PointLight(0xfbbf24, 3, 3000);
+        const warmFill = new THREE.PointLight(0x7c3aed, 3, 3000); // Changed warm orange to deep violet
         warmFill.position.set(0, -400, -500);
         scene.add(warmFill);
 
@@ -1230,7 +1220,7 @@
 
         // ── 0. HERO (Earth) ────────────────────────────────────────────
         const earthG = new THREE.Group();
-        earthG.position.set(-150, -20, -800);
+        earthG.position.set(600, -200, -1800); // Moved far right + deeper so it doesn't overlap hero text
         scene.add(earthG);
         // Ocean layer (HD: higher segments)
         earthG.add(new THREE.Mesh(
@@ -1278,7 +1268,7 @@
         function makeSpiralGalaxy(centerZ, rotX, rotY) {
             const geo = new THREE.BufferGeometry();
             const pos = [], col = [];
-            const cInner = new THREE.Color(0xfbbf24);
+            const cInner = new THREE.Color(0x22d3ee); // Changed galaxy core from gold to cyan
             const cOuter = new THREE.Color(0xc084fc);
             const N = 4000;
             for(let i=0;i<N;i++) {
@@ -1453,7 +1443,7 @@
         // HD Accretion disk — warm orange/white
         const accDisk = new THREE.Mesh(
             new THREE.TorusGeometry(260, 28, 64, 256),
-            new THREE.MeshBasicMaterial({ color: 0xff9a3c })
+            new THREE.MeshBasicMaterial({ color: 0x7dd3fc }) // Changed orange accretion disk to light blue
         );
         accDisk.rotation.x = Math.PI/1.8;
         bhG.add(accDisk);
@@ -1467,17 +1457,17 @@
         // Outer dim secondary ring
         const outerRing = new THREE.Mesh(
             new THREE.TorusGeometry(340, 8, 16, 256),
-            new THREE.MeshBasicMaterial({ color: 0xff6a00, transparent: true, opacity: 0.4 })
+            new THREE.MeshBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.5 }) // Changed orange outer ring to indigo
         );
         outerRing.rotation.x = Math.PI/1.8;
         bhG.add(outerRing);
         // Volumetric halo sprite
-        const bhHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebTex, color: 0xff8800, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending }));
+        const bhHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: nebTex, color: 0x6366f1, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending })); // Changed orange halo to indigo
         bhHalo.scale.set(2200, 2200, 1);
         bhG.add(bhHalo);
         // Event horizon intense light
-        bhG.add(new THREE.PointLight(0xffa040, 25, 3500));
-        bhG.add(new THREE.PointLight(0xffffff, 10, 1200));
+        bhG.add(new THREE.PointLight(0x818cf8, 25, 3500)); // Indigo/purple light instead of orange
+        bhG.add(new THREE.PointLight(0x22d3ee, 10, 1200)); // Cyan inner light
 
         // ΓöÇΓöÇ Post-Processing ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
         const composer = new EffectComposer(renderer);
