@@ -585,148 +585,226 @@
         @media (max-width: 768px) {
 
             /* Hide rocket cursor on touch screens */
-            .cursor-dot, .cursor-ring { display: none; }
+            .cursor-dot, .cursor-ring { display: none !important; }
             * { cursor: auto !important; }
 
             /* Body — allow normal scroll on mobile */
-            body { height: auto; min-height: 100vh; }
-
-            /* HUD — smaller, top-left only */
-            .hud-overlay { padding: 0.8rem 1rem; font-size: 0.55rem; }
-
-            /* Scroll prompt */
-            .scroll-prompt { font-size: 0.55rem; bottom: 20px; }
-
-            /* UI Layer — full screen, scrollable on mobile */
-            #ui-layer {
-                position: relative;
-                height: auto;
-                padding: 1rem;
-                overflow-y: auto;
-                display: block;
+            body { 
+                height: auto !important; 
+                min-height: 100vh !important;
+                overflow-y: auto !important;
             }
 
-            /* Content container — single column, full width */
+            /* Canvas fixed background */
+            #webgl-container, #sparkle-canvas, .vignette {
+                position: fixed !important;
+                top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                z-index: -1;
+            }
+
+            /* HUD — small and clean */
+            .hud-overlay { 
+                position: fixed !important;
+                padding: 0.8rem 1rem !important; 
+                font-size: 0.55rem !important; 
+                pointer-events: none !important;
+            }
+
+            /* Scroll prompt — hide on mobile */
+            .scroll-prompt { display: none !important; }
+
+            /* UI Layer — standard relative container for continuous vertical scrolling */
+            #ui-layer {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                padding: 1.5rem 1rem 3rem 1rem !important;
+                display: block !important;
+                pointer-events: auto !important;
+            }
+
+            /* Content container — full width stack */
             .content-container {
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-                padding: 0;
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
             }
 
             .content-panel {
-                height: auto;
-                position: relative;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 2rem !important;
+                width: 100% !important;
+                height: auto !important;
             }
 
-            /* ALL sections visible stacked on mobile */
+            /* All sections continuously visible on mobile */
             .content-section {
                 position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                width: 100% !important;
+                height: auto !important;
                 opacity: 1 !important;
                 pointer-events: auto !important;
                 transform: none !important;
-                height: auto !important;
                 overflow: visible !important;
-                margin-bottom: 2rem;
-                padding: 0;
+                display: block !important;
+                transition: none !important;
+            }
+
+            /* Remove card background opacity issues on mobile */
+            .glass-panel {
+                padding: 1.2rem 1rem !important;
+                background: rgba(10, 6, 36, 0.75) !important;
+                border-radius: 16px !important;
+                border: 1px solid rgba(139, 92, 246, 0.25) !important;
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
             }
 
             /* Left navigation — hide on mobile */
             .hud-nav { display: none !important; }
 
-            /* Hero section — stack photo above text */
+            /* Hero section layout */
             .hero-wrap {
                 flex-direction: column !important;
                 align-items: center !important;
                 text-align: center !important;
-                gap: 1.5rem !important;
-                padding: 1rem 0 !important;
+                gap: 1.2rem !important;
+                padding: 0.5rem 0 !important;
                 height: auto !important;
             }
 
-            /* Profile photo — smaller on phone */
             .profile-img-wrap {
-                width: 160px !important;
-                height: 160px !important;
-                margin: 0 auto;
-            }
-            .profile-img {
-                width: 160px !important;
-                height: 160px !important;
+                width: 140px !important;
+                height: 140px !important;
+                margin: 0 auto !important;
             }
 
-            /* Hero text */
-            .hero-name {
-                font-size: 3rem !important;
-                letter-spacing: 2px !important;
-                line-height: 1.1 !important;
+            .profile-img {
+                width: 140px !important;
+                height: 140px !important;
             }
+
+            .hero-name {
+                font-size: 2.4rem !important;
+                letter-spacing: 1px !important;
+                line-height: 1.15 !important;
+                margin-bottom: 0.5rem !important;
+            }
+
             .hero-role {
                 font-size: 0.75rem !important;
-                letter-spacing: 2px !important;
+                letter-spacing: 1.5px !important;
+                margin-bottom: 0.8rem !important;
+                word-break: break-word !important;
             }
-            .hero-tagline {
-                font-size: 0.95rem !important;
-                max-width: 100% !important;
-            }
-            .hero-eyebrow { justify-content: center; }
-            .hero-eyebrow::before { display: none; }
 
-            /* Stats row — wrap on tiny screens */
+            .hero-tagline {
+                font-size: 0.9rem !important;
+                line-height: 1.6 !important;
+                max-width: 100% !important;
+                margin-bottom: 1.2rem !important;
+            }
+
+            .hero-eyebrow { 
+                justify-content: center !important; 
+                margin-bottom: 0.5rem !important;
+            }
+            .hero-eyebrow::before { display: none !important; }
+
             .hero-stats {
-                gap: 1.5rem !important;
+                gap: 1.2rem !important;
                 flex-wrap: wrap !important;
                 justify-content: center !important;
+                margin-bottom: 0.5rem !important;
             }
-            .hero-stat-val { font-size: 1.8rem !important; }
 
-            /* Section titles */
+            .hero-stat-val { font-size: 1.6rem !important; }
+            .hero-stat-label { font-size: 0.65rem !important; }
+
+            /* Section headers */
             .sec-title {
-                font-size: 1.6rem !important;
-                letter-spacing: 2px !important;
+                font-size: 1.5rem !important;
+                letter-spacing: 1.5px !important;
+                margin-bottom: 0.8rem !important;
+                word-break: break-word !important;
             }
-            .sec-label { font-size: 0.65rem !important; }
-            .sec-desc { font-size: 0.92rem !important; max-width: 100% !important; }
 
-            /* Glass panel padding */
-            .glass-panel { padding: 1rem 0.2rem !important; }
+            .sec-label {
+                font-size: 0.62rem !important;
+                letter-spacing: 3px !important;
+            }
 
-            /* Projects — single column */
-            .projects-grid { grid-template-columns: 1fr !important; }
+            .sec-desc {
+                font-size: 0.88rem !important;
+                line-height: 1.65 !important;
+                max-width: 100% !important;
+            }
+
+            /* Projects list */
+            .projects-grid { 
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 1rem !important; 
+            }
+
             .project-item {
                 flex-direction: column !important;
                 gap: 0.8rem !important;
+                padding: 0.8rem !important;
             }
+
             .project-img-placeholder {
                 width: 100% !important;
-                height: 120px !important;
+                height: 140px !important;
             }
 
-            /* Skills map — shorter on mobile */
+            /* Skills container */
             .skills-map-container {
-                height: 55vw !important;
-                min-height: 260px !important;
-            }
-            .s-node.main .s-label { font-size: 0.7rem !important; }
-            .s-node.sub .s-label { font-size: 0.6rem !important; }
-            .skills-section-wrap {
-                grid-template-columns: 1fr !important;
-                gap: 0.5rem !important;
+                height: 240px !important;
+                min-height: 240px !important;
+                margin-top: 0.8rem !important;
             }
 
-            /* Achievements — single column */
-            .achievements-grid { grid-template-columns: 1fr !important; }
+            .s-node.main .s-label { font-size: 0.65rem !important; }
+            .s-node.sub .s-label { font-size: 0.55rem !important; }
 
-            /* Certs — 2 columns on mobile */
+            /* Achievements grid */
+            .achievements-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.8rem !important;
+            }
+
+            /* Certifications grid */
             .certs-outer {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 0.4rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 1rem !important;
             }
 
-            /* Contact links — full width */
-            .contact-links { max-width: 100% !important; }
-            .contact-link { font-size: 0.8rem !important; }
-            .contact-link-sub { font-size: 0.68rem !important; }
+            /* Contact links */
+            .contact-links {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .contact-link {
+                padding: 0.6rem 0.7rem !important;
+                font-size: 0.8rem !important;
+            }
+
+            .contact-link-sub {
+                font-size: 0.68rem !important;
+                word-break: break-all !important;
+            }
         }
 
         /* Very small phones (under 400px) */
