@@ -578,6 +578,164 @@
         .skills-svg .l-gold { stroke: rgba(251, 191, 36, 0.3); }
         .skills-svg .l-cyan { stroke: rgba(34, 211, 238, 0.3); }
         .skills-svg .l-main { stroke: rgba(255,255,255,0.06); stroke-width: 1.5px; }
+
+        /* ═══════════════════════════════════════════════
+           MOBILE RESPONSIVE — phones up to 768px
+        ═══════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+
+            /* Hide rocket cursor on touch screens */
+            .cursor-dot, .cursor-ring { display: none; }
+            * { cursor: auto !important; }
+
+            /* Body — allow normal scroll on mobile */
+            body { height: auto; min-height: 100vh; }
+
+            /* HUD — smaller, top-left only */
+            .hud-overlay { padding: 0.8rem 1rem; font-size: 0.55rem; }
+
+            /* Scroll prompt */
+            .scroll-prompt { font-size: 0.55rem; bottom: 20px; }
+
+            /* UI Layer — full screen, scrollable on mobile */
+            #ui-layer {
+                position: relative;
+                height: auto;
+                padding: 1rem;
+                overflow-y: auto;
+                display: block;
+            }
+
+            /* Content container — single column, full width */
+            .content-container {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                padding: 0;
+            }
+
+            .content-panel {
+                height: auto;
+                position: relative;
+            }
+
+            /* ALL sections visible stacked on mobile */
+            .content-section {
+                position: relative !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                transform: none !important;
+                height: auto !important;
+                overflow: visible !important;
+                margin-bottom: 2rem;
+                padding: 0;
+            }
+
+            /* Left navigation — hide on mobile */
+            .hud-nav { display: none !important; }
+
+            /* Hero section — stack photo above text */
+            .hero-wrap {
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                gap: 1.5rem !important;
+                padding: 1rem 0 !important;
+                height: auto !important;
+            }
+
+            /* Profile photo — smaller on phone */
+            .profile-img-wrap {
+                width: 160px !important;
+                height: 160px !important;
+                margin: 0 auto;
+            }
+            .profile-img {
+                width: 160px !important;
+                height: 160px !important;
+            }
+
+            /* Hero text */
+            .hero-name {
+                font-size: 3rem !important;
+                letter-spacing: 2px !important;
+                line-height: 1.1 !important;
+            }
+            .hero-role {
+                font-size: 0.75rem !important;
+                letter-spacing: 2px !important;
+            }
+            .hero-tagline {
+                font-size: 0.95rem !important;
+                max-width: 100% !important;
+            }
+            .hero-eyebrow { justify-content: center; }
+            .hero-eyebrow::before { display: none; }
+
+            /* Stats row — wrap on tiny screens */
+            .hero-stats {
+                gap: 1.5rem !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+            }
+            .hero-stat-val { font-size: 1.8rem !important; }
+
+            /* Section titles */
+            .sec-title {
+                font-size: 1.6rem !important;
+                letter-spacing: 2px !important;
+            }
+            .sec-label { font-size: 0.65rem !important; }
+            .sec-desc { font-size: 0.92rem !important; max-width: 100% !important; }
+
+            /* Glass panel padding */
+            .glass-panel { padding: 1rem 0.2rem !important; }
+
+            /* Projects — single column */
+            .projects-grid { grid-template-columns: 1fr !important; }
+            .project-item {
+                flex-direction: column !important;
+                gap: 0.8rem !important;
+            }
+            .project-img-placeholder {
+                width: 100% !important;
+                height: 120px !important;
+            }
+
+            /* Skills map — shorter on mobile */
+            .skills-map-container {
+                height: 55vw !important;
+                min-height: 260px !important;
+            }
+            .s-node.main .s-label { font-size: 0.7rem !important; }
+            .s-node.sub .s-label { font-size: 0.6rem !important; }
+            .skills-section-wrap {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
+
+            /* Achievements — single column */
+            .achievements-grid { grid-template-columns: 1fr !important; }
+
+            /* Certs — 2 columns on mobile */
+            .certs-outer {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 0.4rem !important;
+            }
+
+            /* Contact links — full width */
+            .contact-links { max-width: 100% !important; }
+            .contact-link { font-size: 0.8rem !important; }
+            .contact-link-sub { font-size: 0.68rem !important; }
+        }
+
+        /* Very small phones (under 400px) */
+        @media (max-width: 400px) {
+            .hero-name { font-size: 2.4rem !important; }
+            .sec-title { font-size: 1.3rem !important; }
+            .certs-outer { grid-template-columns: 1fr !important; }
+            .hero-stat-val { font-size: 1.5rem !important; }
+        }
     </style>
 
     <script type="importmap">
